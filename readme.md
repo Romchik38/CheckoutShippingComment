@@ -1,8 +1,8 @@
-# Add extension attribute to checkout shipping address
+# Add a comment to shipping address
 
 ## Description
 
-Add a comment to shipping address
+Module adds a comment to shipping address via extension attribute.
 
 ## Docs
 
