@@ -60,3 +60,40 @@ Module adds a comment to shipping address via extension attribute.
 It isn't possible to use billing step, because method `savePaymentInformationAndPlaceOrder` in `PaymentInformationManagement` class doesn't take shipping address. Instead it takes billing address. Unfortunately we do not place extension attribute here.
 
 ##### 1.5.3 Decide which step to use for save comment
+
+### Step 2
+
+1. [-] Create a db_schema.xml  
+2. [-] create a sql query to select order + quote + comment  
+3. [-] check the query ( create an order )  
+4. [-] create a comment repository  
+
+#### 2.1 Create a db_schema.xml
+
+[doc](https://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration/)
+
+- entity_id             comment id, autoincrement, pk
+- quote_id              quote id, fk, ondelete cascade
+- comment               varchar 255, not null
+
+1. [-] create db_schema.xml
+2. [-] check validity
+3. [-] run setup:upgrade
+4. [-] generate the db_schema_whitelist.json file
+5. [-] check table
+
+#### 2.4 create a comment repository 
+
+[-] model 
+        [-] interface  
+        [-] class  
+[-] resource  
+[-] collection  
+[-] repository
+        [-] interface  
+        [-] class    
+[-] search results 
+        [-] interface  
+        [-] class    
+
+
