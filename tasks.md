@@ -7,7 +7,7 @@
 3. [-] Deside how to show comment on frontend and backend. Create new steps.
 4. [?] add comment for address book
 
-### Step 1
+### [+] Step 1
 
 1. Add the field to layout
 2. Add a JS mixin to modify data submission
@@ -54,9 +54,9 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 
 ##### 1.5.3 Decide which step to use for save comment
 
-### Step 2 Create a database table and save comment ( for guests and customer with new addresses )
+### [-] Step 2 Create a database table and save comment ( for guests and customer with new addresses )
 
-1. [-] Create a db_schema.xml  
+1. [+] Create a db_schema.xml  
 2. [-] create a sql query to select order + quote + comment  
 3. [-] check the query ( create an order )  
 4. [-] create a comment repository  
@@ -72,8 +72,8 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 1. [+] create db_schema.xml
 2. [+] check validity
 3. [+] run setup:upgrade
-4. [-] generate the db_schema_whitelist.json file
-5. [-] check table
+4. [+] generate the db_schema_whitelist.json file
+5. [+] check table
 
 #### 2.2  create a sql query to select order + quote + comment
 

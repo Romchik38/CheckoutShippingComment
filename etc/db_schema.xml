@@ -12,7 +12,7 @@
             xsi:type="foreign" 
             referenceId="RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID" 
             table="rm38_checkout_shipping_comment" 
-            column="entity_id" 
+            column="quote_address_id" 
             referenceTable="quote_address" 
             referenceColumn="address_id" 
             onDelete="CASCADE"
