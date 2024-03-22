@@ -1,0 +1,13 @@
+{
+    "rm38_checkout_shipping_comment": {
+        "column": {
+            "entity_id": true,
+            "quote_address_id": true,
+            "comment": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID": true
+        }
+    }
+}

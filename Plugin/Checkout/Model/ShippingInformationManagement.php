@@ -43,13 +43,19 @@ class ShippingInformationManagement
         /** @var \Magento\Quote\Model\Quote\Address $shippingAddress */
         $shippingAddress = $addressInformation->getShippingAddress();
         $extensionAttributes = $shippingAddress->getExtensionAttributes();
+        
 
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->quoteRepository->getActive($cartId);
+        $quoteShippingAddress = $quote->getShippingAddress();
+        $shippingAddressId = $quoteShippingAddress->getId();
+        $saveInAddressBook = $quoteShippingAddress->getSaveInAddressBook();
 
         $commentField = $extensionAttributes->getCommentField();
-        if ($commentField) {
+        //save comment only for quests and customer new address with no save in address book
+        if ($commentField && $shippingAddressId && ($saveInAddressBook === '0')) {
             //do database request
+            $doRequest = true;
         }
 
         return $result;

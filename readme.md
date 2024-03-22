@@ -4,6 +4,8 @@
 
 Module adds a comment to shipping address via extension attribute.
 
+- comment shows for guests and customers ( choose create new address with not save in address book checkbox )
+
 ## Docs
 
 [Add a new field in the address form](https://developer.adobe.com/commerce/php/tutorials/frontend/custom-checkout/add-address-field/)
@@ -11,8 +13,9 @@ Module adds a comment to shipping address via extension attribute.
 ## Steps to develop
 
 1. [+] Create a component and check how it works. Deside how to save information on server side.
-2. [-] Create a database table and save comment
+2. [-] Create a database table and save comment ( for guests and customer with new addresses )
 3. [-] Deside how to show comment on frontend and backend. Create new steps.
+4. [?] add comment for address book
 
 ### Step 1
 
@@ -61,7 +64,7 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 
 ##### 1.5.3 Decide which step to use for save comment
 
-### Step 2
+### Step 2 Create a database table and save comment ( for guests and customer with new addresses )
 
 1. [-] Create a db_schema.xml  
 2. [-] create a sql query to select order + quote + comment  
@@ -73,14 +76,22 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 [doc](https://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration/)
 
 - entity_id             *comment id*, *autoincrement*, *pk*
-- quote_id              *quote id*, *fk*, *ondelete cascade*
+- quote_address_id      *address_id*, *fk*, *ondelete cascade*
 - comment               *varchar*, *255*, *not null*
 
-1. [-] create db_schema.xml
-2. [-] check validity
-3. [-] run setup:upgrade
+1. [+] create db_schema.xml
+2. [+] check validity
+3. [+] run setup:upgrade
 4. [-] generate the db_schema_whitelist.json file
 5. [-] check table
+
+#### 2.2  create a sql query to select order + quote + comment
+
+Use tables:
+- sales_order ( shipping_address_id ) => sales_order_address ( entity_id )
+- sales_order_address ( quote_address_id ) => quote_address ( address_id )
+- quote_address ( address_id ) => rm38_checkout_shipping_comment ( quote_address_id )
+  - save_in_address_book = 0
 
 #### 2.4 create a comment repository 
 
