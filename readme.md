@@ -2,10 +2,10 @@
 
 ## Description
 
-Module adds a comment to shipping address via extension attribute.
+The module adds a comment to shipping address via extension attribute.
 
 Features:  
-- comment shows for guests and customers with new address & not save in address book checkbox.
+- a comment is displayed for guests and customers with new address & not save in address book checkbox.
 
 ## Docs
 
