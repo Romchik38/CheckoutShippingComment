@@ -72,9 +72,9 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 
 [doc](https://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration/)
 
-- entity_id             comment id, autoincrement, pk
-- quote_id              quote id, fk, ondelete cascade
-- comment               varchar 255, not null
+- entity_id             *comment id*, *autoincrement*, *pk*
+- quote_id              *quote id*, *fk*, *ondelete cascade*
+- comment               *varchar*, *255*, *not null*
 
 1. [-] create db_schema.xml
 2. [-] check validity
