@@ -73,7 +73,7 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 2. [+] check validity
 3. [+] run setup:upgrade
 4. [+] generate the db_schema_whitelist.json file
-5. [+] check table
+5. [+] [check table](./tasks/2_1_5_check_table.sql)
 
 #### 2.2  create a sql query to select order + quote + comment
 
