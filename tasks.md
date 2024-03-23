@@ -78,21 +78,22 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 #### 2.2  create a sql query to select order + quote + comment
 
 Use tables:
+
 - sales_order ( shipping_address_id ) => sales_order_address ( entity_id )
 - sales_order_address ( quote_address_id ) => quote_address ( address_id )
 - quote_address ( address_id ) => rm38_checkout_shipping_comment ( quote_address_id )
   - save_in_address_book = 0
 
-#### 2.4 create a comment repository 
+#### 2.4 create a comment repository
 
-[-] model 
+[-] model
         [-] interface  
         [-] class  
 [-] resource  
 [-] collection  
 [-] repository
         [-] interface  
-        [-] class    
-[-] search results 
+        [-] class
+[-] search results
         [-] interface  
-        [-] class    
+        [-] class
