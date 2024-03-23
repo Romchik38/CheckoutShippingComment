@@ -85,7 +85,7 @@ Use tables:
 - save_in_address_book = 0
 
 1. [+] add address vie "Next" button
-2. [-] add comment into database
+2. [+] add comment into database
 3. [+] complete an order
 4. [-] construct a query
 
