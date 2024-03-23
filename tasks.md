@@ -82,11 +82,11 @@ Use tables:
 - sales_order ( shipping_address_id ) => sales_order_address ( entity_id )
 - sales_order_address ( quote_address_id ) => quote_address ( address_id )
 - quote_address ( address_id ) => rm38_checkout_shipping_comment ( quote_address_id )
-  - save_in_address_book = 0
+- save_in_address_book = 0
 
-1. [-] add address vie "Next" button
+1. [+] add address vie "Next" button
 2. [-] add comment into database
-3. [-] complete an order
+3. [+] complete an order
 4. [-] construct a query
 
 #### 2.4 create a comment repository
