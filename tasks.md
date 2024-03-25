@@ -89,9 +89,10 @@ Use tables:
 3. [+] complete an order
 4. [+] construct a query
 5. [-] create 3 orders to check rows
-        [-] guest
-        [-] customer without save in address book checkbox
-        [-] customer with save in address book checkbox
+        [+] guest
+        [+] customer without save in address book checkbox
+        [+] customer with default address
+        [+] customer with save in address book checkbox
 
 #### 2.4 create a comment repository
 

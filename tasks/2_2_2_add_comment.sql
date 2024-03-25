@@ -29,3 +29,6 @@ SELECT * FROM rm38_checkout_shipping_comment;
 --+-----------+------------------+---------+
 
 
+INSERT INTO rm38_checkout_shipping_comment
+    (quote_address_id, comment) 
+    VALUES (102, 'some 102');

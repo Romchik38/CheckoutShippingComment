@@ -68,7 +68,7 @@ SELECT oa.order, qa.comment
             rm38_checkout_shipping_comment.comment `comment`
             FROM quote_address, rm38_checkout_shipping_comment
             WHERE 
-                quote_address.address_id = 101 AND
+                -- quote_address.address_id = 101 AND
                 quote_address.address_id = rm38_checkout_shipping_comment.quote_address_id
 
         ) as qa
