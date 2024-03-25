@@ -87,7 +87,11 @@ Use tables:
 1. [+] add address vie "Next" button
 2. [+] add comment into database
 3. [+] complete an order
-4. [-] construct a query
+4. [+] construct a query
+5. [-] create 3 orders to check rows
+        [-] guest
+        [-] customer without save in address book checkbox
+        [-] customer with save in address book checkbox
 
 #### 2.4 create a comment repository
 
