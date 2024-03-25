@@ -96,11 +96,11 @@ Use tables:
 
 #### 2.4 create a comment repository
 
-[-] model
-        [-] interface  
-        [-] class  
-[-] resource  
-[-] collection  
+[+] model
+        [+] interface  
+        [+] class  
+[+] resource  
+[+] collection  
 [-] repository
         [-] interface  
         [-] class
