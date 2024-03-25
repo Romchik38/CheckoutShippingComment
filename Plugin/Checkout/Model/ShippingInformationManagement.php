@@ -53,15 +53,19 @@ class ShippingInformationManagement
         $customerAddressId = $quoteShippingAddress->getCustomerAddressId();
 
         $commentField = $extensionAttributes->getCommentField();
-        //save comment only if extension attribute was set
-        if ($commentField) {
-            // 1. check if comment with shippingAddressId already present in comment table
-            //  1.1 true - update comment
-            //  1.2 false - insert new
-            //
-            // 2. check if $saveInAddressBook = 1
-            //  2.1 true - save comment for customerAddressId
+            
+        //exit ( extension attribute wasn't set )
+        if ($commentField === null) {
+            return $result;
         }
+
+        // 1. check if comment with shippingAddressId already present in comment table
+        //  1.1 true - update comment
+        //  1.2 false - insert new
+        $a = 1;
+        $b = $a + 1;
+        // 2. check if $saveInAddressBook = 1
+        //  2.1 true - save comment for customerAddressId
 
         return $result;
     }
