@@ -57,8 +57,8 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 ### [-] Step 2 Create a database table and save comment ( for guests and customer with new addresses )
 
 1. [+] Create a db_schema.xml  
-2. [-] create a sql query to select order + quote + comment  
-3. [-] check the query ( create an order )  
+2. [+] create a sql query to select order + quote + comment  
+3. [+] check the query ( create an order )  
 4. [-] create a comment repository  
 
 #### 2.1 Create a db_schema.xml
@@ -88,7 +88,7 @@ Use tables:
 2. [+] add comment into database
 3. [+] complete an order
 4. [+] construct a query
-5. [-] create 3 orders to check rows
+5. [+] create 3 orders to check rows
         [+] guest
         [+] customer without save in address book checkbox
         [+] customer with default address
