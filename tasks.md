@@ -101,9 +101,11 @@ Use tables:
         [+] class  
 [+] resource  
 [+] collection  
-[-] repository  
+[+] repository  
         [+] interface  
         [-] class  
 [+] search results  
         [+] interface  
         [+] class  
+[+] di.xml
+[-] test
