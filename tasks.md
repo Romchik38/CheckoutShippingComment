@@ -3,7 +3,7 @@
 ## Steps to develop
 
 1. [+] Create a component and check how it works. Deside how to save information on server side.
-2. [-] Create a database table and save comment ( for guests and customer with new addresses )
+2. [+] Create a database table and save comment ( for guests and customer with new addresses )
 3. [-] Deside how to show comment on frontend and backend. Create new steps.
 4. [?] add comment for address book
 
@@ -54,13 +54,13 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 
 ##### 1.5.3 Decide which step to use for save comment
 
-### [-] Step 2 Create a database table and save comment ( for guests and customer with new addresses )
+### [+] Step 2 Create a database table and save comment ( for guests and customer with new addresses )
 
 1. [+] Create a db_schema.xml  
 2. [+] create a sql query to select order + quote + comment  
 3. [+] check the query ( create an order )  
 4. [+] create a comment repository  
-5. [-] save comment with plugin
+5. [+] save comment with plugin
 
 #### 2.1 Create a db_schema.xml
 
