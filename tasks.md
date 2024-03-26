@@ -59,7 +59,8 @@ It isn't possible to use billing step, because method `savePaymentInformationAnd
 1. [+] Create a db_schema.xml  
 2. [+] create a sql query to select order + quote + comment  
 3. [+] check the query ( create an order )  
-4. [-] create a comment repository  
+4. [+] create a comment repository  
+5. [-] save comment with plugin
 
 #### 2.1 Create a db_schema.xml
 
@@ -107,5 +108,9 @@ Use tables:
 [+] search results  
         [+] interface  
         [+] class  
-[+] di.xml
-[-] test
+[+] di.xml  
+[+] test 
+
+#### 2.5. save comment with plugin
+
+add logic to plugin
