@@ -96,14 +96,14 @@ Use tables:
 
 #### 2.4 create a comment repository
 
-[+] model
+[+] model  
         [+] interface  
         [+] class  
 [+] resource  
 [+] collection  
-[-] repository
+[-] repository  
         [-] interface  
-        [-] class
-[-] search results
+        [-] class  
+[-] search results  
         [-] interface  
-        [-] class
+        [-] class  
