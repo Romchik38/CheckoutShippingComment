@@ -102,8 +102,8 @@ Use tables:
 [+] resource  
 [+] collection  
 [-] repository  
-        [-] interface  
+        [+] interface  
         [-] class  
-[-] search results  
-        [-] interface  
-        [-] class  
+[+] search results  
+        [+] interface  
+        [+] class  
