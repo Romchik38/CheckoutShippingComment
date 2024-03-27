@@ -129,7 +129,7 @@ subsection - Shipping Address
 
 #### 3.2 create a plugin 
 
-1. create a pugin for `\Magento\Sales\Block\Adminhtml\Order\View\Info`, function `getOrder()`
-2. see how it works
+1. [-] create a pugin for `\Magento\Sales\Model\Order\Address\Renderer`, function `format()`
+2. [-] check in admin
 
 
