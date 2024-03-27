@@ -118,17 +118,16 @@ add logic to plugin
 
 ### 3. [-] show comment in admin. 
 
-1. [-] found ui xml file to update 
-2. [-] create a component
-3. [-] use *imports* link to get order number
-4. [-] create a request to server
-5. [-] use loading
+1. [+] found ui xml file to update 
+2. [-] create a plugin
 
 #### 3.1. found ui xml file to update 
 
 admin page - sales/order/view/order_id/9
 section - Address Information
 subsection - Shipping Address
+
+#### 3.2 create a plugin 
 
 1. create a pugin for `\Magento\Sales\Block\Adminhtml\Order\View\Info`, function `getOrder()`
 2. see how it works
