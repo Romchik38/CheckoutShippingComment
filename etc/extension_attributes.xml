@@ -4,4 +4,7 @@
     <extension_attributes for="Magento\Quote\Api\Data\AddressInterface">
         <attribute code="comment_field" type="string" />
     </extension_attributes>
+    <!-- <extension_attributes for="Magento\Sales\Api\Data\OrderAddressInterface">
+        <attribute code="comment_field" type="string" />
+    </extension_attributes> -->
 </config>

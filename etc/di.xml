@@ -6,28 +6,30 @@
             type="Romchik38\CheckoutShippingComment\Plugin\Checkout\Model\ShippingInformationManagement"
             sortOrder="1" disabled="false" />
     </type>
-    <!-- Admin -->
-    <type name="\Magento\Sales\Block\Adminhtml\Order\View\Info">
-        <plugin name="checkout_shipping_comment_admin_order_info"
-            type="Romchik38\CheckoutShippingComment\Plugin\Adminhtml\Order\View\Info"
-            sortOrder="1" disabled="false" />
-    </type>
-    <type name="\Magento\Sales\Model\Order\Address\Renderer">
-        <plugin name="checkout_shipping_comment_order_address_renderer"
-            type="Romchik38\CheckoutShippingComment\Plugin\Model\Order\Address\Renderer"
-            sortOrder="1" disabled="false" />
-    </type>
-    <!-- Admin END -->
     <preference
-        for="Romchik38\CheckoutShippingComment\Api\Data\PostInterface"
-        type="Romchik38\CheckoutShippingComment\Model\Post"
+        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterface"
     />
     <preference
-        for="Romchik38\CheckoutShippingComment\Api\Data\PostSearchResultsInterface"
-        type="Romchik38\CheckoutShippingComment\Model\PostSearchResults"
+        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterfaceSearchResultsInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceSearchResults"
     />
     <preference
-        for="Romchik38\CheckoutShippingComment\Api\PostRepositoryInterface"
-        type="Romchik38\CheckoutShippingComment\Model\PostRepository"
+        for="Romchik38\CheckoutShippingComment\Api\ShippingCommentInterfaceRepositoryInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceRepository"
     />
+
+    <!-- In progress -->
+        <!-- Admin -->
+        <type name="\Magento\Sales\Block\Adminhtml\Order\View\Info">
+            <plugin name="checkout_shipping_comment_admin_order_info"
+                type="Romchik38\CheckoutShippingComment\Plugin\Adminhtml\Order\View\Info"
+                sortOrder="1" disabled="false" />
+        </type>
+        <type name="\Magento\Sales\Model\Order\Address\Renderer">
+            <plugin name="checkout_shipping_comment_order_address_renderer"
+                type="Romchik38\CheckoutShippingComment\Plugin\Model\Order\Address\Renderer"
+                sortOrder="1" disabled="false" />
+        </type>
+        <!-- Admin END -->
 </config>

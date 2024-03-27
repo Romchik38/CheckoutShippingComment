@@ -131,7 +131,11 @@ subsection - Shipping Address
 #### 3.2 create a plugin 
 
 1. [-] create a pugin for `\Magento\Sales\Model\Order\Address\Renderer`, function `format()`
-        [-] check if possible to add extension attributes
+        [+] check if possible to add extension attributes  
+                [+] create extension attributes for  `Magento\Sales\Api\Data\OrderAddressInterface`  
+                magento do not add extension attributes to 
+        [-] add comment to format address in `afterFormat`
+
 2. [-] check in admin
 
 
