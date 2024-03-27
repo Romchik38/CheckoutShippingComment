@@ -4,7 +4,7 @@
 
 1. [+] Create a component and check how it works. Deside how to save information on server side.
 2. [+] Create a database table and save comment ( for guests and customer with new addresses )
-3. [-] show comment in admin. 
+3. [+] show comment in admin. 
 4. [-] show comment on frontend
 5. [?] Create new steps.
 6. [?] edit address in admin via click on link `sales/order/address`
@@ -117,10 +117,10 @@ Use tables:
 
 add logic to plugin
 
-### 3. [-] show comment in admin. 
+### 3. [+] show comment in admin. 
 
 1. [+] found ui xml file to update 
-2. [-] create a plugin
+2. [+] create a plugin
 
 #### 3.1. found ui xml file to update 
 
@@ -130,12 +130,12 @@ subsection - Shipping Address
 
 #### 3.2 create a plugin 
 
-1. [-] create a pugin for `\Magento\Sales\Model\Order\Address\Renderer`, function `format()`
+1. [+] create a pugin for `\Magento\Sales\Model\Order\Address\Renderer`, function `format()`
         [+] check if possible to add extension attributes  
                 [+] create extension attributes for  `Magento\Sales\Api\Data\OrderAddressInterface`  
                 magento do not add extension attributes to 
-        [-] add comment to format address in `afterFormat`
+        [+] add comment to format address in `afterFormat`
 
-2. [-] check in admin
+2. [+] check in admin
 
 
