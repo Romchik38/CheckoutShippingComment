@@ -9,10 +9,10 @@ Features:
 - a comment filed is displayed for guests and customers with new address & not save in address book checkbox on shipping step
 - show comment in admin ( Sales => Orders => click View on any Order => check Shipping Address)
 
-## Docs
-
-[Add a new field in the address form](https://developer.adobe.com/commerce/php/tutorials/frontend/custom-checkout/add-address-field/)
-
 ## Status
 
-Module in development. [see tasks](./tasks.md)
+Module in development. 
+
+## Versions
+
+Magento 2.4.6
