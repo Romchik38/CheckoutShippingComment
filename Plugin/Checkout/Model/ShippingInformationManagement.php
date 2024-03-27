@@ -7,6 +7,7 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ShippingInformationManagement
 {
@@ -29,7 +30,6 @@ class ShippingInformationManagement
         $shippingAddress = $addressInformation->getShippingAddress();
         $extensionAttributes = $shippingAddress->getExtensionAttributes();
         
-
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->quoteRepository->getActive($cartId);
         $quoteShippingAddress = $quote->getShippingAddress();
@@ -45,30 +45,19 @@ class ShippingInformationManagement
         }
 
         // 2. check if comment with shippingAddressId already present in comment table
-        $filter = $this->filterFactory->create();
-        $filter
-            ->setField('quote_address_id')
-            ->setValue($shippingAddressId)
-            ->setConditionType('eq');
-        $this->searchCriteriaBuilder->addFilters([$filter]);
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $comments = $this->shippingCommentRepository->getList($searchCriteria)->getItems();
-        if (count($comments) === 0) {
-            //insert new
+        try {
+            $comment = $this
+                ->shippingCommentRepository
+                ->getByQuoteAddressId((int)$shippingAddressId);
+        } catch(NoSuchEntityException $e) {
             $comment = $this->shippingCommentRepository->create();
-            $comment->seQuoteAddressId((int)$shippingAddressId);
-        } else {
-            //update comment
-            $comment = array_shift($comments);
+            $comment->setQuoteAddressId((int)$shippingAddressId);
         }
         $comment->setComment($commentField);
         $this->shippingCommentRepository->save($comment);
-
         
         // 3. check if $saveInAddressBook = 1
         //  3.1 true - save comment for customerAddressId
-
-
 
         return $result;
     }

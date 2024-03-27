@@ -60,5 +60,12 @@ interface ShippingCommentRepositoryInterface
      * @return ShippingCommentInterface
      */
     public function create(): ShippingCommentInterface;
+
+    /**
+     * @param int $quoteAddressId
+     * @return ShippingCommentInterface
+     * @throws NoSuchEntityException
+     */
+    public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface;
 }
 

@@ -5,6 +5,8 @@ namespace Romchik38\CheckoutShippingComment\Model;
 
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface as CollectionProcessor;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\FilterFactory;
 use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface;
 use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentSearchResultsInterface;
 use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
@@ -23,7 +25,9 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         private CollectionFactory $collectionFactory,
         private ShippingCommentResource      $commentResource,
         private CollectionProcessor $collectionProcessor,
-        private ShippingCommentSearchResultsFactory $commentSearchResultsFactory
+        private ShippingCommentSearchResultsFactory $commentSearchResultsFactory,
+        private SearchCriteriaBuilder   $searchCriteriaBuilder,
+        private FilterFactory           $filterFactory
     )
     {
     }
@@ -105,4 +109,26 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $this->commentFactory->create();
     }
 
+        /**
+     * @param int $quoteAddressId
+     * @return ShippingCommentInterface
+     * @throws NoSuchEntityException
+     */
+    public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface 
+    {
+        $filter = $this->filterFactory->create();
+        $filter
+            ->setField('quote_address_id')
+            ->setValue($quoteAddressId)
+            ->setConditionType('eq');
+        $this->searchCriteriaBuilder->addFilters([$filter]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $comments = $this->getList($searchCriteria)->getItems();
+        if (count($comments) === 0) {
+            throw new NoSuchEntityException(__('The Shipping Comment with the Quote Address Id "%1" doesn\'t exist.', $quoteAddressId));
+        } else {
+            $comment = array_shift($comments);
+            return $comment;
+        }
+    }
 }

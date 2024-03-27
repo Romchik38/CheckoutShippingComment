@@ -44,7 +44,7 @@ interface ShippingCommentInterface
      * @param int $quoteAddressId
      * @return ShippingCommentInterface
      */
-    public function seQuoteAddressId(int $quoteAddressId): ShippingCommentInterface;
+    public function setQuoteAddressId(int $quoteAddressId): ShippingCommentInterface;
 
     /**
      * Update Comment

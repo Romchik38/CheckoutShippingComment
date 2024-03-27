@@ -34,7 +34,7 @@ class ShippingComment extends AbstractModel implements ShippingCommentInterface
         return $this->setData(self::ENTITY_ID, $id);
     }
 
-    public function seQuoteAddressId(int $quoteAddressId): ShippingCommentInterface
+    public function setQuoteAddressId(int $quoteAddressId): ShippingCommentInterface
     {
         return $this->setData(self::QUOTE_ADDRESS_ID, $quoteAddressId);
     }
