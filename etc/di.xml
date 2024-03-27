@@ -8,7 +8,7 @@
     </type>
     <type name="\Magento\Sales\Model\Order\Address\Renderer">
         <plugin name="checkout_shipping_comment_order_address_renderer"
-            type="Romchik38\CheckoutShippingComment\Plugin\Model\Order\Address\Renderer"
+            type="Romchik38\CheckoutShippingComment\Plugin\Sales\Model\Order\Address\Renderer"
             sortOrder="1" disabled="false" />
     </type>
     <preference

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Plugin\Checkout\Model;

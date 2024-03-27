@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Romchik38\CheckoutShippingComment\Plugin\Model\Order\Address;
+namespace Romchik38\CheckoutShippingComment\Plugin\Sales\Model\Order\Address;
 
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
