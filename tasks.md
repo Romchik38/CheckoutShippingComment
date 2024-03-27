@@ -4,8 +4,9 @@
 
 1. [+] Create a component and check how it works. Deside how to save information on server side.
 2. [+] Create a database table and save comment ( for guests and customer with new addresses )
-3. [-] Deside how to show comment on frontend and backend. Create new steps.
-4. [?] add comment for address book
+3. [-] show comment in admin. 
+4. [-] show comment on frontend
+5. [?] Create new steps.
 
 ### [+] Step 1
 
@@ -114,3 +115,22 @@ Use tables:
 #### 2.5. save comment with plugin
 
 add logic to plugin
+
+### 3. [-] show comment in admin. 
+
+1. [-] found ui xml file to update 
+2. [-] create a component
+3. [-] use *imports* link to get order number
+4. [-] create a request to server
+5. [-] use loading
+
+#### 3.1. found ui xml file to update 
+
+admin page - sales/order/view/order_id/9
+section - Address Information
+subsection - Shipping Address
+
+1. create a pugin for `\Magento\Sales\Block\Adminhtml\Order\View\Info`, function `getOrder()`
+2. see how it works
+
+
