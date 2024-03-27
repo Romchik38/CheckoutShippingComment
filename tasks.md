@@ -7,6 +7,7 @@
 3. [-] show comment in admin. 
 4. [-] show comment on frontend
 5. [?] Create new steps.
+6. [?] edit address in admin via click on link `sales/order/address`
 
 ### [+] Step 1
 
@@ -130,6 +131,7 @@ subsection - Shipping Address
 #### 3.2 create a plugin 
 
 1. [-] create a pugin for `\Magento\Sales\Model\Order\Address\Renderer`, function `format()`
+        [-] check if possible to add extension attributes
 2. [-] check in admin
 
 
