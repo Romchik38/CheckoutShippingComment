@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Model;
@@ -9,4 +10,3 @@ use Magento\Framework\Api\SearchResults;
 class ShippingCommentSearchResults extends SearchResults implements ShippingCommentSearchResultsInterface
 {
 }
-

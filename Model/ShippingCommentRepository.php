@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Model;
@@ -28,8 +29,7 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         private ShippingCommentSearchResultsFactory $commentSearchResultsFactory,
         private SearchCriteriaBuilder   $searchCriteriaBuilder,
         private FilterFactory           $filterFactory
-    )
-    {
+    ) {
     }
 
     /**
@@ -68,7 +68,7 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
     {
         /** @var \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment\Collection $collection */
         $collection = $this->collectionFactory->create();
-        
+
         $idFieldName = $this->commentResource->getIdFieldName();
         $collection->addFieldToFilter($idFieldName, $commentId);
         $collection->load();
@@ -109,12 +109,12 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $this->commentFactory->create();
     }
 
-        /**
+    /**
      * @param int $quoteAddressId
      * @return ShippingCommentInterface
      * @throws NoSuchEntityException
      */
-    public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface 
+    public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface
     {
         $filter = $this->filterFactory->create();
         $filter

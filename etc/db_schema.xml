@@ -1,20 +1,25 @@
 <?xml version="1.0"?>
-<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <!-- Table for guests and customer with new addresses not save in address book -->
-    <table name="rm38_checkout_shipping_comment" resource="default" engine="innodb" comment="Checkout comments from shipping step">
-        <column xsi:type="int" name="entity_id" identity="true" nullable="false" unsigned="true" comment="Comment ID"/>
-        <column xsi:type="int" name="quote_address_id" nullable="false" unsigned="true" comment="Quote Address ID"/>
-        <column xsi:type="varchar" name="comment" length="255" nullable="false" comment="Comment text" />
+    <table name="rm38_checkout_shipping_comment" resource="default" engine="innodb"
+        comment="Checkout comments from shipping step">
+        <column xsi:type="int" name="entity_id" identity="true" nullable="false" unsigned="true"
+            comment="Comment ID" />
+        <column xsi:type="int" name="quote_address_id" nullable="false" unsigned="true"
+            comment="Quote Address ID" />
+        <column xsi:type="varchar" name="comment" length="255" nullable="false"
+            comment="Comment text" />
         <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="entity_id"/>
+            <column name="entity_id" />
         </constraint>
-        <constraint 
-            xsi:type="foreign" 
-            referenceId="RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID" 
-            table="rm38_checkout_shipping_comment" 
-            column="quote_address_id" 
-            referenceTable="quote_address" 
-            referenceColumn="address_id" 
+        <constraint
+            xsi:type="foreign"
+            referenceId="RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID"
+            table="rm38_checkout_shipping_comment"
+            column="quote_address_id"
+            referenceTable="quote_address"
+            referenceColumn="address_id"
             onDelete="CASCADE"
         />
     </table>

@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Romchik38_CheckoutShippingComment">
         <sequence>
-            <module name="Magento_Checkout"/>
+            <module name="Magento_Checkout" />
         </sequence>
     </module>
 </config>

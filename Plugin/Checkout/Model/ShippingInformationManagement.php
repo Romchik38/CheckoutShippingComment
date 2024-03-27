@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Plugin\Checkout\Model;
@@ -29,7 +30,7 @@ class ShippingInformationManagement
         /** @var \Magento\Quote\Model\Quote\Address $shippingAddress */
         $shippingAddress = $addressInformation->getShippingAddress();
         $extensionAttributes = $shippingAddress->getExtensionAttributes();
-        
+
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->quoteRepository->getActive($cartId);
         $quoteShippingAddress = $quote->getShippingAddress();
@@ -38,7 +39,7 @@ class ShippingInformationManagement
         $customerAddressId = $quoteShippingAddress->getCustomerAddressId();
 
         $commentField = $extensionAttributes->getCommentField();
-            
+
         // 1. exit ( extension attribute wasn't set )
         if ($commentField === null) {
             return $result;
@@ -49,13 +50,13 @@ class ShippingInformationManagement
             $comment = $this
                 ->shippingCommentRepository
                 ->getByQuoteAddressId((int)$shippingAddressId);
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $comment = $this->shippingCommentRepository->create();
             $comment->setQuoteAddressId((int)$shippingAddressId);
         }
         $comment->setComment($commentField);
         $this->shippingCommentRepository->save($comment);
-        
+
         // 3. check if $saveInAddressBook = 1
         //  3.1 true - save comment for customerAddressId
 

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Block\Checkout;
@@ -10,12 +11,12 @@ class LayoutProcessor implements LayoutProcessorInterface
 
     public function process($jsLayout)
     {
-        
+
         $commentAttributeCode = 'comment_field';
 
         $commentField = [
-        
-            'component' => 'Magento_Ui/js/form/element/abstract',        
+
+            'component' => 'Magento_Ui/js/form/element/abstract',
             'config' => [
                 'customScope' => 'shippingAddress.custom_attributes',
                 'customEntry' => null,
@@ -32,18 +33,18 @@ class LayoutProcessor implements LayoutProcessorInterface
             'provider' => 'checkoutProvider',
             'sortOrder' => 0,
             'validation' => [
-               'required-entry' => false,
-               'max_text_length' => 255
+                'required-entry' => false,
+                'max_text_length' => 255
             ],
             'options' => [],
             'filterBy' => null,
             'customEntry' => null,
             'visible' => true,
             'value' => '' // value field is used to set a default value of the attribute
-        
+
         ];
-        
-        
+
+
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children'][$commentAttributeCode] = $commentField;
 
         return $jsLayout;

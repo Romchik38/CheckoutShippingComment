@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Romchik38\CheckoutShippingComment\Api;
 
 use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface;
@@ -68,4 +70,3 @@ interface ShippingCommentRepositoryInterface
      */
     public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface;
 }
-
