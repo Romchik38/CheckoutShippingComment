@@ -23,4 +23,11 @@
         for="Romchik38\CheckoutShippingComment\Api\ShippingCommentInterfaceRepositoryInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceRepository"
     />
+
+    <!-- in progress -->
+    <type name="\Magento\Customer\Model\Address\CustomerAddressDataFormatter">
+        <plugin name="checkout_shipping_comment_customer_address_formatter"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address\CustomerAddressDataFormatter"
+            sortOrder="1" disabled="false" />
+    </type>
 </config>
