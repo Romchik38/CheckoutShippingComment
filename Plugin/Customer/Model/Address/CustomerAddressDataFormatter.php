@@ -8,6 +8,9 @@ class CustomerAddressDataFormatter
 {
     public function afterPrepareAddress($subject, $result)
     {
+        $extensionAttributes = $result['extension_attributes'];
+        $extensionAttributes->setCommentField('comment 1');
+        
         return $result;
     }
 }
