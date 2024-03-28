@@ -11,6 +11,8 @@ class CustomerAddressDataFormatter
         $extensionAttributes = $result['extension_attributes'];
         $extensionAttributes->setCommentField('comment 1');
         
+        $extToArr = $extensionAttributes->__toArray();
+        $result['extension_attributes'] = $extToArr;
         return $result;
     }
 }
