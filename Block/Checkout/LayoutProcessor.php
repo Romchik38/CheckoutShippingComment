@@ -25,11 +25,11 @@ class LayoutProcessor implements LayoutProcessorInterface
                 'cols' => '20',
                 'rows' => '2',
                 'tooltip' => [
-                    'description' => 'add additional information to delivery',
+                    'description' => __('add additional information to delivery'),
                 ]
             ],
             'dataScope' => 'shippingAddress.custom_attributes' . '.' . $commentAttributeCode,
-            'label' => 'Shipping Comment',
+            'label' => __('Shipping Comment'),
             'provider' => 'checkoutProvider',
             'sortOrder' => 0,
             'validation' => [
