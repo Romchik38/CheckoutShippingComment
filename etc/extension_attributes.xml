@@ -5,8 +5,6 @@
     <extension_attributes for="Magento\Quote\Api\Data\AddressInterface">
         <attribute code="comment_field" type="string" />
     </extension_attributes>
-
-    <!-- in progress -->
     <extension_attributes for="Magento\Customer\Api\Data\AddressInterface">
         <attribute code="comment_field" type="string" />
     </extension_attributes>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
