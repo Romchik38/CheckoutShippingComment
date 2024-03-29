@@ -6,6 +6,11 @@
             type="Romchik38\CheckoutShippingComment\Plugin\Checkout\Model\ShippingInformationManagement"
             sortOrder="1" disabled="false" />
     </type>
+    <type name="\Magento\Customer\Model\Address\CustomerAddressDataFormatter">
+        <plugin name="checkout_shipping_comment_customer_address_formatter"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address\CustomerAddressDataFormatter"
+            sortOrder="1" disabled="false" />
+    </type>
     <type name="\Magento\Sales\Model\Order\Address\Renderer">
         <plugin name="checkout_shipping_comment_order_address_renderer"
             type="Romchik38\CheckoutShippingComment\Plugin\Sales\Model\Order\Address\Renderer"
@@ -24,10 +29,10 @@
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceRepository"
     />
 
-    <!-- in progress -->
-    <type name="\Magento\Customer\Model\Address\CustomerAddressDataFormatter">
-        <plugin name="checkout_shipping_comment_customer_address_formatter"
-            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address\CustomerAddressDataFormatter"
+    <!-- In progress -->
+    <type name="\Magento\Customer\Api\AddressRepositoryInterface">
+        <plugin name="checkout_shipping_comment_customer_address_repository"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\ResourceModel\AddressRepository"
             sortOrder="1" disabled="false" />
     </type>
 </config>
