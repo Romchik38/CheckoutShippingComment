@@ -8,37 +8,37 @@ use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface as Collect
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterFactory;
-use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface;
-use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentSearchResultsInterface;
-use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
-use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment\CollectionFactory;
-use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment as ShippingCommentResource;
-use Romchik38\CheckoutShippingComment\Model\ShippingCommentSearchResultsFactory;
-use Romchik38\CheckoutShippingComment\Model\ShippingCommentFactory;
+use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentCustomerInterface;
+use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentCustomerSearchResultsInterface;
+use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface;
+use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer\CollectionFactory;
+use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer as ShippingCommentCustomerResource;
+use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResultsFactory;
+use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 
-class ShippingCommentRepository implements ShippingCommentRepositoryInterface
+class ShippingCommentCustomerRepository implements ShippingCommentCustomerRepositoryInterface
 {
 
     public function __construct(
-        private ShippingCommentFactory $commentFactory,
+        private ShippingCommentCustomerFactory $commentFactory,
         private CollectionFactory $collectionFactory,
-        private ShippingCommentResource      $commentResource,
+        private ShippingCommentCustomerResource      $commentResource,
         private CollectionProcessor $collectionProcessor,
-        private ShippingCommentSearchResultsFactory $commentSearchResultsFactory,
+        private ShippingCommentCustomerSearchResultsFactory $commentSearchResultsFactory,
         private SearchCriteriaBuilder   $searchCriteriaBuilder,
         private FilterFactory           $filterFactory
     ) {
     }
 
     /**
-     * @param ShippingCommentInterface $comment
+     * @param ShippingCommentCustomerInterface $comment
      * @return bool
      * @throws CouldNotDeleteException
      */
-    public function delete(ShippingCommentInterface $comment): bool
+    public function delete(ShippingCommentCustomerInterface $comment): bool
     {
         try {
             $this->commentResource->delete($comment);
@@ -60,30 +60,30 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
     }
 
     /**
-     * Load Shipping Comment data by given Identity
+     * Load Shipping Comment Customer data by given Identity
      *
      * @param int $commentId
-     * @return ShippingCommentInterface
+     * @return ShippingCommentCustomerInterface
      */
-    public function getById(int $commentId): ShippingCommentInterface
+    public function getById(int $commentId): ShippingCommentCustomerInterface
     {
-        /** @var \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment\Collection $collection */
+        /** @var \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer\Collection $collection */
         $collection = $this->collectionFactory->create();
 
         $idFieldName = $this->commentResource->getIdFieldName();
         $collection->addFieldToFilter($idFieldName, $commentId);
         $collection->load();
         if ($collection->getSize() === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment with the "%1" ID doesn\'t exist.', $commentId));
+            throw new NoSuchEntityException(__('The Shipping Comment Customer with the "%1" ID doesn\'t exist.', $commentId));
         }
         return $collection->getFirstItem();
     }
 
     /**
      * @param SearchCriteriaInterface $searchCriteria
-     * @return ShippingCommentSearchResultsInterface
+     * @return ShippingCommentCustomerSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ShippingCommentSearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): ShippingCommentCustomerSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
@@ -95,7 +95,7 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $searchResults;
     }
 
-    public function save(ShippingCommentInterface $comment): ShippingCommentInterface
+    public function save(ShippingCommentCustomerInterface $comment): ShippingCommentCustomerInterface
     {
         try {
             $this->commentResource->save($comment);
@@ -105,28 +105,28 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $comment;
     }
 
-    public function create(): ShippingCommentInterface
+    public function create(): ShippingCommentCustomerInterface
     {
         return $this->commentFactory->create();
     }
 
     /**
-     * @param int $quoteAddressId
-     * @return ShippingCommentInterface
+     * @param int $customerAddressId
+     * @return ShippingCommentCustomerInterface
      * @throws NoSuchEntityException
      */
-    public function getByQuoteAddressId(int $quoteAddressId): ShippingCommentInterface
+    public function getByCustomerAddressId(int $customerAddressId): ShippingCommentCustomerInterface
     {
         $filter = $this->filterFactory->create();
         $filter
-            ->setField('quote_address_id')
-            ->setValue($quoteAddressId)
+            ->setField('customer_address_id')
+            ->setValue($customerAddressId)
             ->setConditionType('eq');
         $this->searchCriteriaBuilder->addFilters([$filter]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $comments = $this->getList($searchCriteria)->getItems();
         if (count($comments) === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment with the Quote Address Id "%1" doesn\'t exist.', $quoteAddressId));
+            throw new NoSuchEntityException(__('The Shipping Comment Customer with the Customer Address Id "%1" doesn\'t exist.', $quoteAddressId));
         } else {
             $comment = array_shift($comments);
             return $comment;

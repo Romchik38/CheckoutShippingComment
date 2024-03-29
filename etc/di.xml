@@ -18,17 +18,28 @@
     </type>
     <preference
         for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface"
-        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingComment"
     />
     <preference
         for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterfaceSearchResultsInterface"
-        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceSearchResults"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentSearchResults"
     />
     <preference
         for="Romchik38\CheckoutShippingComment\Api\ShippingCommentInterfaceRepositoryInterface"
-        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentInterfaceRepository"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository"
     />
-
+    <preference
+        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentCustomerInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomer"
+    />
+    <preference
+        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentCustomerSearchResultsInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResults"
+    />
+    <preference
+        for="Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface"
+        type="Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerRepository"
+    />
     <!-- In progress -->
     <type name="\Magento\Customer\Api\AddressRepositoryInterface">
         <plugin name="checkout_shipping_comment_customer_address_repository"
