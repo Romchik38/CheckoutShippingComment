@@ -7,7 +7,19 @@
         },
         "constraint": {
             "PRIMARY": true,
-            "RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID": true
+            "RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID": true,
+            "RM38_CHKT_SHPP_COMMENT_QUOTE_ADDR_ID_QUOTE_ADDR_ADDR_ID": true
+        }
+    },
+    "rm38_checkout_shipping_comment_customer": {
+        "column": {
+            "entity_id": true,
+            "customer_address_id": true,
+            "comment": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "RM38_CHKT_SHPP_COMMENT_CSTR_CSTR_ADDR_ID_CSTR_ADDR_ENTT_ENTT_ID": true
         }
     }
 }

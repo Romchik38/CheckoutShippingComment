@@ -23,4 +23,26 @@
             onDelete="CASCADE"
         />
     </table>
+    <!-- Table for customer -->
+    <table name="rm38_checkout_shipping_comment_customer" resource="default" engine="innodb"
+        comment="Checkout comments for customer address from address book">
+        <column xsi:type="int" name="entity_id" identity="true" nullable="false" unsigned="true"
+            comment="Comment ID" />
+        <column xsi:type="int" name="customer_address_id" nullable="false" unsigned="true"
+            comment="Customer Address ID" />
+        <column xsi:type="varchar" name="comment" length="255" nullable="false"
+            comment="Comment text" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint
+            xsi:type="foreign"
+            referenceId="RM38_CHKT_SHPP_COMMENT_CSTR_CSTR_ADDR_ID_CSTR_ADDR_ENTT_ENTT_ID"
+            table="rm38_checkout_shipping_comment_customer"
+            column="customer_address_id"
+            referenceTable="customer_address_entity"
+            referenceColumn="entity_id"
+            onDelete="CASCADE"
+        />
+    </table>
 </schema>
