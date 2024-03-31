@@ -126,7 +126,7 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $comments = $this->getList($searchCriteria)->getItems();
         if (count($comments) === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment Customer with the Customer Address Id "%1" doesn\'t exist.', $quoteAddressId));
+            throw new NoSuchEntityException(__('The Shipping Comment Customer with the Customer Address Id "%1" doesn\'t exist.', $customerAddressId));
         } else {
             $comment = array_shift($comments);
             return $comment;
