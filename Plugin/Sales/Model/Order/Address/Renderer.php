@@ -9,6 +9,10 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 
+/**
+ * AREA - Admin->Sales->Orders ( click view on concrete order )
+ * add the comment to the Shipping Address 
+ */
 class Renderer
 {
 
