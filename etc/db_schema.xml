@@ -13,6 +13,9 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id" />
         </constraint>
+        <constraint xsi:type="unique" referenceId="RM38_CHECKOUT_SHIPPING_COMMENT_QUOTE_ADDRESS_ID">
+            <column name="quote_address_id" />
+        </constraint>
         <constraint
             xsi:type="foreign"
             referenceId="RM38_CHKT_SHPP_COMMENT_ENTT_ID_QUOTE_ADDR_ADDR_ID"
@@ -34,6 +37,9 @@
             comment="Comment text" />
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="unique" referenceId="RM38_CHECKOUT_SHIPPING_COMMENT_CUSTOMER_CUSTOMER_ADDRESS_ID">
+            <column name="customer_address_id" />
         </constraint>
         <constraint
             xsi:type="foreign"
