@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\CheckoutShippingComment\Plugin\Customer\Model\ResourceModel;
 
-use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerRepository;
+use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -15,7 +15,7 @@ class AddressRepository
 {
 
     public function __construct(
-        private ShippingCommentCustomerRepository $shippingCommentCustomerRepository,
+        private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository,
         private ManagerInterface $messageManager,
         private LoggerInterface $logger
     ) {
@@ -72,7 +72,7 @@ class AddressRepository
                 $this->shippingCommentCustomerRepository->save($comment);
             } catch(CouldNotSaveException $e) {
                 $this->messageManager->addErrorMessage(__("Error while saving address comment"));
-                $this->logger->critical('Error while saving shipping comment customer with id: ' . $customerAddressId);
+                $this->logger->critical('Error while saving shipping comment customer with customerAddressId: ' . $customerAddressId);
             }
         } catch(NoSuchEntityException $e) {
         }
