@@ -81,5 +81,5 @@ class AddressRepository
 
     // public function afterDelete() {}
     // do not need, because there is a on delete cascade option in mysql
-    // row alraedy deleted
+    // row is already deleted
 }
