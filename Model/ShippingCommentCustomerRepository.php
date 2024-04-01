@@ -19,9 +19,17 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 
+/**
+ * ShippingCommentCustomerRepository
+ */
 class ShippingCommentCustomerRepository implements ShippingCommentCustomerRepositoryInterface
 {
-
+    
+    /**
+     * Method __construct
+     *
+     * @return void
+     */
     public function __construct(
         private ShippingCommentCustomerFactory $commentFactory,
         private CollectionFactory $collectionFactory,
@@ -94,7 +102,14 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
         $searchResults->setTotalCount($collection->getSize());
         return $searchResults;
     }
-
+    
+    /**
+     * Method save
+     *
+     * @param ShippingCommentCustomerInterface $comment 
+     * @throws CouldNotSaveException
+     * @return ShippingCommentCustomerInterface
+     */
     public function save(ShippingCommentCustomerInterface $comment): ShippingCommentCustomerInterface
     {
         try {
@@ -104,7 +119,12 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
         }
         return $comment;
     }
-
+    
+    /**
+     * Method create
+     *
+     * @return ShippingCommentCustomerInterface
+     */
     public function create(): ShippingCommentCustomerInterface
     {
         return $this->commentFactory->create();
