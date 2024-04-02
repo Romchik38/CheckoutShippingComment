@@ -16,6 +16,25 @@
             type="Romchik38\CheckoutShippingComment\Plugin\Sales\Model\Order\Address\Renderer"
             sortOrder="1" disabled="false" />
     </type>
+    <type name="\Magento\Customer\Api\AddressRepositoryInterface">
+        <plugin name="checkout_shipping_comment_customer_address_repository"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\ResourceModel\AddressRepository"
+            sortOrder="1" disabled="false" />
+    </type>
+    <type name="\Magento\Customer\Model\Address">
+        <plugin name="checkout_shipping_comment_customer_model_address"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address"
+            sortOrder="1" disabled="false" />
+    </type>
+
+    <!-- in progress  -->
+    <type name="Magento\Customer\Api\Data\AddressInterface">
+        <plugin name="checkout_shipping_comment_customer_model_address_extension"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\AddressAttributesLoad" />
+    </type>
+    <!--end in progress  -->
+
+
     <preference
         for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingComment"
@@ -40,17 +59,4 @@
         for="Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerRepository"
     />
-    <!-- In progress -->
-    <!-- [1] -->
-    <type name="\Magento\Customer\Api\AddressRepositoryInterface">
-        <plugin name="checkout_shipping_comment_customer_address_repository"
-            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\ResourceModel\AddressRepository"
-            sortOrder="1" disabled="false" />
-    </type>
-    <!-- [2] -->
-    <type name="\Magento\Customer\Model\Address">
-        <plugin name="checkout_shipping_comment_customer_model_address"
-            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address"
-            sortOrder="1" disabled="false" />
-    </type>
 </config>
