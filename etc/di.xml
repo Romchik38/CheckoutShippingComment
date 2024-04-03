@@ -26,11 +26,18 @@
             type="Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address"
             sortOrder="1" disabled="false" />
     </type>
-
-    <!-- in progress  -->
     <type name="Magento\Customer\Api\Data\AddressInterface">
         <plugin name="checkout_shipping_comment_customer_model_address_extension"
             type="Romchik38\CheckoutShippingComment\Plugin\Customer\AddressAttributesLoad" />
+    </type>
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="checkout_shipping_comment_quoteManagement"
+            type="Romchik38\CheckoutShippingComment\Plugin\Quote\Model\QuoteManagement" />
+    </type>    
+    <!-- in progress  -->
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="checkout_shipping_comment_quote_address"
+            type="Romchik38\CheckoutShippingComment\Plugin\Quote\Model\Quote\Address" />
     </type>
     <!--end in progress  -->
 
@@ -44,7 +51,7 @@
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentSearchResults"
     />
     <preference
-        for="Romchik38\CheckoutShippingComment\Api\ShippingCommentInterfaceRepositoryInterface"
+        for="Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository"
     />
     <preference

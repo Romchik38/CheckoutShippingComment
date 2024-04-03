@@ -6,8 +6,9 @@ Magento 2 module adds a comment to checkout shipping address form.
 
 ## Features
 
-- a comment field is displayed on the shipping step for guests and customers ( with new address )
-- show comment in admin ( Sales => Orders => click View on any Order => check Shipping Address )
+- *shipping step* a comment field is displayed for guests and customers ( with new address )
+- *shipping step* the comment displayed for existing customer address ( if it was provided earlier )
+- *admin* show the comment in Order page ( Sales => Orders => click View on any Order => check Shipping Address )
 
 ## Status
 

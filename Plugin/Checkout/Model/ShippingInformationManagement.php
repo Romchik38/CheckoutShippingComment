@@ -53,9 +53,6 @@ class ShippingInformationManagement
         $comment->setComment($commentField);
         $this->shippingCommentRepository->save($comment);
 
-        // 3. check if $saveInAddressBook = 1
-        //  3.1 true - save comment for customerAddressId
-
         return $result;
     }
 }

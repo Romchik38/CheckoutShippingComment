@@ -7,9 +7,16 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Customer\Model\ResourceModel;
 use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Message\ManagerInterface;
 use Psr\Log\LoggerInterface;
+
+/**
+ * 
+ * Save a comment for new or existing customer address
+ * area - storefront 
+ * url - checkout_index_index
+ * 
+ */
 
 class AddressRepository
 {
@@ -56,7 +63,7 @@ class AddressRepository
         \Magento\Customer\Api\Data\AddressInterface $result,
         \Magento\Customer\Api\Data\AddressInterface $address,
     ) {
-        $customerAddressId = $result->getId();
+        $customerAddressId = (int)$result->getId();
         $extensionAttributes = $address->getExtensionAttributes();
         $commentField = $extensionAttributes->getCommentField();
         // 1. exit if comment wasn't provided
@@ -66,15 +73,29 @@ class AddressRepository
         // 2. get comment
         try {
             $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($customerAddressId);
-        // 3. save comment
+
+// START # MUST BE TESTED
+            // 3. save comment for existing sddress
             try {
                 $comment->setComment($commentField);
                 $this->shippingCommentCustomerRepository->save($comment);
             } catch(CouldNotSaveException $e) {
-                $this->messageManager->addErrorMessage(__("Error while saving address comment"));
-                $this->logger->critical('Error while saving shipping comment customer with customerAddressId: ' . $customerAddressId);
+                $this->messageManager->addErrorMessage(__("Error while updating address comment"));
+                $this->logger->critical('Error while updating shipping comment customer with customerAddressId: ' . $customerAddressId);
             }
+// END # MUST BE TESTED    
+
+        // 4. create new comment for new sddress
         } catch(NoSuchEntityException $e) {
+            $comment = $this->shippingCommentCustomerRepository->create();
+            $comment->setComment($commentField);
+            $comment->setCustomerAddressId($customerAddressId);
+            try {
+                $this->shippingCommentCustomerRepository->save($comment);
+            } catch(CouldNotSaveException $e) {
+                $this->messageManager->addErrorMessage(__("Error while saving new address comment"));
+                $this->logger->critical('Error while saving new shipping comment customer with customerAddressId: ' . $customerAddressId);
+            }
         }
         return $result;
     }
