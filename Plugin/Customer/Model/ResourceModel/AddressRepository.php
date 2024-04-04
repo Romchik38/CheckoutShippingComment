@@ -74,7 +74,7 @@ class AddressRepository
             $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($customerAddressId);
 
 // START # MUST BE TESTED
-            // 3. save comment for existing sddress
+            // 3. save comment for existing address
             try {
                 $comment->setComment($commentField);
                 $this->shippingCommentCustomerRepository->save($comment);
