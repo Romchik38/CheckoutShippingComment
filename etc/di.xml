@@ -34,22 +34,23 @@
         <plugin name="checkout_shipping_comment_quoteManagement"
             type="Romchik38\CheckoutShippingComment\Plugin\Quote\Model\QuoteManagement" />
     </type>    
-    <!-- in progress  -->
     <type name="Magento\Quote\Model\Quote\Address">
         <plugin name="checkout_shipping_comment_quote_address"
             type="Romchik38\CheckoutShippingComment\Plugin\Quote\Model\Quote\Address" />
     </type>
-    <!--end in progress  -->
-
+    <type name="\Magento\Customer\Block\Address\Book">
+        <plugin name="checkout_shipping_comment_block_address_book"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Block\Address\Book" />
+    </type>
 
     <preference
         for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingComment"
     />
     <preference
-        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterfaceSearchResultsInterface"
+        for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentSearchResultsInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentSearchResults"
-    />
+    />    
     <preference
         for="Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository"
