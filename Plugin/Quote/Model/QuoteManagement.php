@@ -8,6 +8,9 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Add shipping comment to quote extension attributes before place order
+ */
 class QuoteManagement
 {
     public function __construct(
@@ -16,7 +19,6 @@ class QuoteManagement
     ) {
     }
 
-    //public function afterSubmit(
     public function beforeSubmit(
         $subject,
         $quote
@@ -30,7 +32,6 @@ class QuoteManagement
             return null;
         }
         $shippingAddressId = $quoteShippingAddress->getId();
-        //$customerAddressId = $quoteShippingAddress->getCustomerAddressId();
 
         try {
             $comment = $this->shippingCommentRepository
