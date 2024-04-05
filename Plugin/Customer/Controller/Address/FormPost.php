@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\CheckoutShippingComment\Plugin\Customer\Controller\Address;
 
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Add extension attributes to customer address
@@ -14,12 +15,13 @@ use Magento\Framework\Message\ManagerInterface;
 class FormPost
 {
     public function __construct(
-        private ManagerInterface $messageManager
+        private ManagerInterface $messageManager,
+        private RequestInterface $request
     ) {
     }
 
     /**
-     * @param Magento\Customer\Controller\Address\FormPost $subject
+     * @param \Magento\Customer\Controller\Address\FormPost $subject
      * @param \Magento\Framework\Controller\Result\Redirect $result
      * @return \Magento\Framework\Controller\Result\Redirect
      */
@@ -37,14 +39,16 @@ class FormPost
                 break;
             }
         }
-        if ($isSuccess) {
-            // do job
-
-
-
-
-
+        if (!$isSuccess) {
+            return $result;
         }
+        // do job
+
+
+        $addressId = $this->request->getParam('id');
+        $params = $this->request->getParams();
+
+
         return $result;
     }
 }
