@@ -1,4 +1,8 @@
-define(['jquery'], function ($) {
+define([
+    'jquery',
+    './param',
+    './input'
+], function ($, param, createInputTag) {
     'use strict';
 
     var insertAfter = function (referenceNode, newNode) {
@@ -13,37 +17,15 @@ define(['jquery'], function ($) {
 
     // main programm
     var execute = () => {
-        var zip = document.querySelector('.field.zip.required');
-        if (zip === null) return;
+        var tag = document.querySelector(param.selector);
+        if (tag === null) return;
 
-        var div = document.createElement("div");
-        div.setAttribute('class', 'field');
+        var div = createInputTag(param.input);
 
-        var label = document.createElement('label');
-        label.setAttribute('class', 'label');
-
-        var labelSpan = document.createElement('span');
-        labelSpan.innerText = 'Comment';
-
-        var divControl = document.createElement('div');
-        divControl.setAttribute('class', 'control');
-
-        var input = document.createElement('input');
-        input.setAttribute('class', 'input text');
-        input.setAttribute('maxlength', '255');
-        input.setAttribute('type', 'text');
-        input.setAttribute('name', 'comment');
-        input.setAttribute('title', 'Shipping comment');
-        input.setAttribute('disabled', 1);
-
-        div.appendChild(label);
-        div.appendChild(divControl);
-        divControl.appendChild(input);
-        label.appendChild(labelSpan);
-
-        insertAfter(zip, div);
+        insertAfter(tag, div);
 
     };
+    
     return function () {
         $('document').ready(execute);
     };
