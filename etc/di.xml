@@ -43,6 +43,13 @@
             type="Romchik38\CheckoutShippingComment\Plugin\Customer\Block\Address\Book" />
     </type>
 
+    <!-- in progress -->
+    <type name="\Magento\Customer\Controller\Address\FormPost">
+        <plugin name="checkout_shipping_comment_controller_address_formpost"
+            type="Romchik38\CheckoutShippingComment\Plugin\Customer\Controller\Address\FormPost" />
+    </type>
+    <!-- in progress -->
+
     <preference
         for="Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface"
         type="Romchik38\CheckoutShippingComment\Model\ShippingComment"
