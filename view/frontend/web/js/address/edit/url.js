@@ -1,4 +1,6 @@
-define([], function() {
+define([
+], function(
+) {
     'use strict';
 
     return function(pathname) {
@@ -13,8 +15,12 @@ define([], function() {
             return elem === 'id';
         });
 
-        var id = arr[indexId+1];
-        console.log({ id });
+        if (indexId === -1) return result;
+
+        if ((arr.length + 1) === indexId) return result;
+
+        result = arr[indexId+1];
+
         return result;
     }
 });
