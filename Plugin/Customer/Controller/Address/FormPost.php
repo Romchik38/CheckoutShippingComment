@@ -12,7 +12,7 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInter
 use Psr\Log\LoggerInterface;
 
 /**
- * Add extension attributes to customer address
+ * Save a customer comment
  * area - storefront
  * url - /customer/address/edit/id/1/
  */
@@ -51,7 +51,6 @@ class FormPost
         // do job
 
         $addressIdParam = (int)$this->request->getParam('id');
-        $params = $this->request->getParams();
         $commentParam = $this->request->getParam('comment');
         if (!$commentParam) {
             return $result;
