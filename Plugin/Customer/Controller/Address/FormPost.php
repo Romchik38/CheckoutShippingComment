@@ -6,6 +6,10 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Customer\Controller\Address;
 
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Add extension attributes to customer address
@@ -16,7 +20,9 @@ class FormPost
 {
     public function __construct(
         private ManagerInterface $messageManager,
-        private RequestInterface $request
+        private RequestInterface $request,
+        private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository,
+        private LoggerInterface $logger
     ) {
     }
 
@@ -44,10 +50,24 @@ class FormPost
         }
         // do job
 
-
-        $addressId = $this->request->getParam('id');
+        $addressIdParam = (int)$this->request->getParam('id');
         $params = $this->request->getParams();
+        $commentParam = $this->request->getParam('comment');
+        if (!$commentParam) {
+            return $result;
+        }
 
+        try {
+            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($addressIdParam);
+            $comment->setComment($commentParam);
+            try {
+                $this->shippingCommentCustomerRepository->save($comment);
+            } catch (CouldNotSaveException $e) {
+                $this->logger->critical('Error while updating shipping comment customer with customer address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
+            }
+        } catch (NoSuchEntityException $e) {
+            $this->logger->critical('Comment for customer address id: ' . $addressIdParam . ' doesn\'t exist ( request from customer/address/edit )');
+        }
 
         return $result;
     }
