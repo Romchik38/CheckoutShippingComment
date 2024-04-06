@@ -1,8 +1,9 @@
 define([
     'jquery',
-    './param',
-    './input'
-], function ($, param, createInputTag) {
+    './edit/param',
+    './edit/input',
+    './edit/url'
+], function ($, param, createInputTag, getCommentId) {
     'use strict';
 
     var insertAfter = function (referenceNode, newNode) {
@@ -10,6 +11,8 @@ define([
     }
 
     // do request on server as fast as possible
+    var url = getCommentId( window.location.pathname );
+
 
     // ....
     // ....
