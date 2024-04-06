@@ -73,7 +73,6 @@ class AddressRepository
         try {
             $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($customerAddressId);
 
-// START # MUST BE TESTED
             // 3. save comment for existing address
             try {
                 $comment->setComment($commentField);
@@ -81,9 +80,7 @@ class AddressRepository
             } catch(CouldNotSaveException $e) {
                 $this->messageManager->addErrorMessage(__("Error while updating address comment"));
                 $this->logger->critical('Error while updating shipping comment customer with customerAddressId: ' . $customerAddressId);
-            }
-// END # MUST BE TESTED    
-
+            } 
         // 4. create new comment for new sddress
         } catch(NoSuchEntityException $e) {
             $comment = $this->shippingCommentCustomerRepository->create();
