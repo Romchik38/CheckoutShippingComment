@@ -9,6 +9,8 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use \Magento\Framework\Controller\Result\Json;
 use \Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use \Magento\Framework\Exception\LocalizedException;
 
 class Edit implements HttpGetActionInterface
 {
@@ -17,6 +19,7 @@ class Edit implements HttpGetActionInterface
         private JsonFactory $jsonFactory,
         private Session $customerSession,
         private RequestInterface $request,
+        private AddressRepositoryInterface $addressRepository
     ) {
     }
 
@@ -40,16 +43,32 @@ class Edit implements HttpGetActionInterface
             return $json->setData($this->error('id expected'));
         }
         if (strlen($addressIdParam) === 0) {
-            return $json->setData($this->error('id expected'));
+            return $json->setData($this->error('id value expected'));
         }
 
-
+        // customer authentication check
         $customerId = $this->customerSession->getCustomerId();
-
-        $arr = [1, 2, 3];
-        $data = json_encode($arr);
-        $json->setData($data);
-
-        return $json;
+        if (!$customerId) {
+            return $json->setData($this->error('authentication required'));
+        }
+        // customer authorization check
+        try {
+            /** @var \Magento\Customer\Api\Data\AddressInterface $address */
+            $address = $this->addressRepository->getById((int)$addressIdParam);
+            $customerAddressId = $address->getCustomerId();
+            if ($customerId !== $customerAddressId) {
+                return $json->setData($this->error('access denied'));
+            }
+            // get comment
+            $extensionAttributes = $address->getExtensionAttributes();
+            $commentField = $extensionAttributes->getCommentField();
+            if (!$commentField) {
+                $commentField = '';
+            }
+        } catch (LocalizedException) {
+            return $json->setData($this->error('address with id ' . $addressIdParam . ' was not found'));
+        }
+        // success ( send comment )
+        return $json->setData($this->data($commentField));
     }
 }
