@@ -2,17 +2,51 @@ define([
     'jquery',
     './edit/param',
     './edit/input',
-    './edit/url'
-], function ($, param, createInputTag, getCommentId) {
+    './edit/url',
+    'mage/url',
+    'Magento_Customer/js/customer-data'
+], function ($, param, createInputTag, getCommentId, url, customerData) {
     'use strict';
 
     var insertAfter = function (referenceNode, newNode) {
         referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
 
-    var commentId = getCommentId( window.location.pathname );
+    var ready = {
+        comment: undefined,
+        tagReady: false,
+        showComment: function () {
+            if (this.comment !== undefined && this.tagReady) {
+                $('.input.text.comment').val(this.comment);
+            }
+        },
+        addComment: function (text) {
+            this.comment = text;
+            this.showComment();
+        },
+        tagAdded: function () {
+            this.tagReady = true;
+            this.showComment();
+        }
+    }
+
+    var commentId = getCommentId(window.location.pathname);
     if (commentId.length > 0) {
-        // do request on server as fast as possible        
+        // do request on server as fast as possible   
+        var requestUrl = url.build(('shippingcomment/customer/edit/id/' + commentId));
+
+        $.ajax({
+            url: requestUrl,
+        })
+            .done(function (data) {
+                if (typeof (data) !== 'object') {
+                    return;
+                }
+                var keys = Object.keys(data);
+                if (keys.indexOf('data') > -1) {
+                    ready.addComment(data.data);
+                }
+            });
     }
 
     // main programm
@@ -22,8 +56,9 @@ define([
         if (tag === null) return;
         var div = createInputTag(param.input);
         insertAfter(tag, div);
+        ready.tagAdded();
     };
-    
+
     return function () {
         $('document').ready(execute);
     };

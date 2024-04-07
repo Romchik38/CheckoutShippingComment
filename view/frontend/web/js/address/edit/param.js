@@ -24,12 +24,12 @@ define([], function () {
                         {
                             tagName: 'input',
                             attributes: {
-                                class: 'input text',
+                                class: 'input text comment',
                                 maxlength: '255',
                                 type: 'text',
                                 name: 'comment',
                                 title: 'Shipping comment',
-                                disabled: 1
+                                // disabled: 1
                             }
                         }
                     ]
