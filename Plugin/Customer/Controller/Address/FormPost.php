@@ -48,16 +48,20 @@ class FormPost
         if (!$isSuccess) {
             return $result;
         }
-        // do job
-
-        $addressIdParam = (int)$this->request->getParam('id');
+        //do 
+        // 1. client create a new address
+        $addressIdParam = $this->request->getParam('id');
+        if (!$addressIdParam) {
+            return $result;
+        }
+        // 2. client edit address
         $commentParam = $this->request->getParam('comment');
         if (!$commentParam) {
             return $result;
         }
 
         try {
-            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($addressIdParam);
+            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId((int)$addressIdParam);
             $comment->setComment($commentParam);
             try {
                 $this->shippingCommentCustomerRepository->save($comment);
