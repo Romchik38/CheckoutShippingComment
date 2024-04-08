@@ -10,6 +10,13 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use \Magento\Customer\Model\Session;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use \Magento\Framework\Exception\LocalizedException;
+use \Magento\Framework\Api\SearchCriteriaInterface;
+use \Magento\Framework\Api\SearchCriteriaBuilder;
+use \Magento\Framework\Api\SortOrder;
+use \Magento\Framework\Api\SortOrderFactory;
 
 /**
  * Save a customer comment
@@ -22,7 +29,11 @@ class FormPost
         private ManagerInterface $messageManager,
         private RequestInterface $request,
         private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private AddressRepositoryInterface $addressRepository,
+        private Session $customerSession,
+        private SearchCriteriaBuilder $searchCriteriaBuilder,
+        private SortOrderFactory $sortOrderFactory
     ) {
     }
 
@@ -49,13 +60,14 @@ class FormPost
             return $result;
         }
         //do 
-        // 1. client create a new address
         $addressIdParam = $this->request->getParam('id');
+        $commentParam = $this->request->getParam('comment');
+        // 1. client create a new address
         if (!$addressIdParam) {
+            $this->saveNewAddress($commentParam);
             return $result;
         }
         // 2. client edit address
-        $commentParam = $this->request->getParam('comment');
         if (!$commentParam) {
             return $result;
         }
@@ -73,5 +85,37 @@ class FormPost
         }
 
         return $result;
+    }
+
+    public function saveNewAddress($comment)
+    {
+        if (!$comment) {
+            $commentField = '';
+        } else {
+            $commentField = $comment;
+        }
+        // 1. get a customer
+        $customerId = $this->customerSession->getCustomerId();
+        // 2. get last address
+        /** @var SearchCriteriaInterface  $searchCriteria*/
+        $sort = $this->sortOrderFactory->create()->setField('entity_id')
+            ->setDirection(SortOrder::SORT_DESC);
+        $this->searchCriteriaBuilder->setSortOrders([$sort]);
+        $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $addresses = $this->addressRepository->getList($searchCriteria)->getItems();
+        $address = array_shift($addresses);
+        if (!$address) {
+            return;
+        }
+        // 3. chech if it dosn't have a comment
+        $extensionAttributes = $address->getExtensionAttributes();
+        $extensionAttributes->setCommentField($commentField);
+        try {
+            $this->addressRepository->save($address);
+        } catch (LocalizedException $e) {
+            $this->logger->critical('comment for customer address id ' . $address->getId() .  ' was mot save');
+        }
+        return;
     }
 }

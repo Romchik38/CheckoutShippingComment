@@ -66,7 +66,7 @@ class AddressRepository
         $extensionAttributes = $address->getExtensionAttributes();
         $commentField = $extensionAttributes->getCommentField();
         // 1. exit if comment wasn't provided
-        if(!$commentField) {
+        if($commentField === null) {
             return $result;
         }
         // 2. get comment
