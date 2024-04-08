@@ -8,6 +8,7 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Escaper;
 
 /**
  * The plugin add a comment to the Shipping Address in Order view
@@ -19,7 +20,8 @@ class Renderer
     public function __construct(
         private ShippingCommentRepositoryInterface $shippingCommentRepository,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
-        private FilterFactory $filterFactory
+        private FilterFactory $filterFactory,
+        private Escaper $escaper
     ) {
     }
 
@@ -42,7 +44,7 @@ class Renderer
                 $comment = $this
                     ->shippingCommentRepository
                     ->getByQuoteAddressId($quoteShippingAddressId);
-                $result = $result . '<br><span style="shipping-comment">' . $comment->getComment() . '</span>';
+                $result = $result . '<br><span style="shipping-comment">' . $this->escaper->escapeHtml($comment->getComment()) . '</span>';
             } catch (NoSuchEntityException $e) {
             }
         }
