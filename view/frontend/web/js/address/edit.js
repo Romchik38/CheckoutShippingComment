@@ -51,7 +51,7 @@ define([
 
     // main programm
     var execute = () => {
-        if (commentId.length === 0) return;
+        // if (commentId.length === 0) return;
         var tag = document.querySelector(param.selector);
         if (tag === null) return;
         var div = createInputTag(param.input);
