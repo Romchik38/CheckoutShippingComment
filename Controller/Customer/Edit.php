@@ -11,8 +11,19 @@ use \Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use \Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Escaper;
 
+
+/**
+ * rest api for customer address
+ * area - storefront
+ * url - /customer/address/edit/id/1
+ * 
+ * takes id from get request 
+ * return a json object:
+ *      {error: "text"}
+ *          or
+ *      {data: "text"}
+ */
 class Edit implements HttpGetActionInterface
 {
 
@@ -21,18 +32,17 @@ class Edit implements HttpGetActionInterface
         private Session $customerSession,
         private RequestInterface $request,
         private AddressRepositoryInterface $addressRepository,
-        private Escaper $escaper
     ) {
     }
 
     public function error(string $message)
     {
-        return ['error' => $this->escaper->escapeHtml($message)];
+        return ['error' => $message];
     }
 
     public function data(string $comment)
     {
-        return ['data' => $this->escaper->escapeHtml($comment)];
+        return ['data' => $comment];
     }
 
     public function execute(): Json
