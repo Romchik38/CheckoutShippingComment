@@ -21,7 +21,9 @@
         <text args="$parent.getCustomAttributeLabel(element)"></text>
         <br>
     </each>
-
+    <!-- CheckoutShippingComment start -->
+    <a attr="'href': url + address().customerAddressId, 'target': '_self'" text="'Edit'"></a><br>
+    <!-- CheckoutShippingComment end -->
     <button visible="address().isEditable()" type="button"
             class="action edit-address-link"
             click="editAddress">
@@ -29,7 +31,6 @@
     </button>
     <!-- ko if: (!isSelected()) -->
     <br>
-    <a attr="'href': 'tel:' + address().telephone" text="address().telephone"></a><br>
     <button type="button" click="selectAddress" class="action action-select-shipping-item">
         <span translate="'Ship Here'"></span>
     </button>
