@@ -6,8 +6,8 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Customer\Model\Address;
 
 /**
  * 
- * Fix a problem when customer address extension attributes are erased 
- * during from server to storefront
+ * Fixes a problem when customer address extension attributes are erased 
+ * during transfer from server to storefront
  * 
  */
 

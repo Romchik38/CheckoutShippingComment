@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="romchik38_extensions" translate="label" sortOrder="8888888">
+            <label>Romchik38</label>
+        </tab>
+        <section id="checkoutshippingcomment" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Checkout shipping comment</label>
+            <tab>romchik38_extensions</tab>
+            <resource>Romchik38_CheckoutShippingComment::checkout_acl_rule</resource>
+            <group id="checkout" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Checkout Configuration</label>
+                <field id="comment_sortOrder" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Field sort order on checkout page</label>
+                    <comment>This text will display on the frontend.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
