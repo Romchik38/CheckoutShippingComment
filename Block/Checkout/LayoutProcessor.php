@@ -5,13 +5,23 @@ declare(strict_types=1);
 namespace Romchik38\CheckoutShippingComment\Block\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class LayoutProcessor implements LayoutProcessorInterface
 {
 
+    const CONFIG_SORTORDER_PATH = 'checkoutshippingcomment/checkout/comment_sortOrder';     
+
+    public function __construct(
+        private ScopeConfigInterface $scopeConfig,
+    )
+    {        
+    }
+
     public function process($jsLayout)
     {
 
+        $sortOrder = (int)$this->scopeConfig->getValue($this::CONFIG_SORTORDER_PATH);    
         $commentAttributeCode = 'comment_field';
 
         $commentField = [
@@ -31,7 +41,7 @@ class LayoutProcessor implements LayoutProcessorInterface
             'dataScope' => 'shippingAddress.custom_attributes' . '.' . $commentAttributeCode,
             'label' => __('Shipping Comment'),
             'provider' => 'checkoutProvider',
-            'sortOrder' => 0,
+            'sortOrder' => $sortOrder,
             'validation' => [
                 'required-entry' => false,
                 'max_text_length' => 255
