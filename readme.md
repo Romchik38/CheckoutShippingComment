@@ -19,4 +19,4 @@ The Module is working. Tests in progress.
 
 ## Versions
 
-Magento 2.4.6
+Magento 2.4.7
