@@ -47,11 +47,10 @@ class Edit implements HttpGetActionInterface
 
     public function execute(): Json
     {
-
         $json = $this->jsonFactory->create();
 
         $addressIdParam = $this->request->getParam('id');
-        if (!$addressIdParam) {
+        if ($addressIdParam === null) {
             return $json->setData($this->error('id expected'));
         }
         if (strlen($addressIdParam) === 0) {
