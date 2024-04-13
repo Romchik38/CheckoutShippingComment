@@ -6,8 +6,6 @@ namespace Romchik38\CheckoutShippingComment\Test\Unit\Block\Checkout;
 
 use Romchik38\CheckoutShippingComment\Block\Checkout\LayoutProcessor;
 use Magento\Framework\App\Config;
-use Magento\Framework\Phrase;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LayoutProcessorTest extends TestCase
@@ -78,14 +76,10 @@ class LayoutProcessorTest extends TestCase
         $scopeConfig = $this->createMock(Config::class);
         $scopeConfig->method('getValue')->willReturn($this->sortOrder);
 
-        $phrase = $this->createMock(Phrase::class);
-
-        $layoutProcessor = new LayoutProcessor($scopeConfig, $phrase);
+        $layoutProcessor = new LayoutProcessor($scopeConfig);
 
         $processResult = $layoutProcessor->process($this->jsLayout);
-        $result = $processResult['components']['checkout']['children']['steps']
-            ['children']['shipping-step']['children']['shippingAddress']['children']
-            ['shipping-address-fieldset']['children']['comment_field'];
+        $result = $processResult['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['comment_field'];
 
         // prepare Phrase
         $description = $result['config']['tooltip']['description'];
