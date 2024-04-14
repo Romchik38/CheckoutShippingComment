@@ -10,10 +10,19 @@ use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustome
 
 class ShippingCommentCustomer extends AbstractModel implements ShippingCommentCustomerInterface
 {
+    public function __construct(
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        private ShippingCommentCustomerResource $shippingCommentCustomerResource
+    )
+    {
+        parent::__construct($context, $registry);
+    }
+
     protected function _construct()
 
     {
-        $this->_init(ShippingCommentCustomerResource::class);
+        $this->_init($this->shippingCommentCustomerResource::class);
     }
 
     public function getId()
