@@ -17,24 +17,28 @@ class ShippingCommentTest extends TestCase
     private $data = [];
     private $shippingCommentResource;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         $this->context = $this->createMock(Context::class);
         $this->registry = $this->createMock(Registry::class);
         $this->shippingCommentResource = $this->createMock(ShippingCommentResource::class);
-        // $this->data = [
-        //     'entity_id' => '1',
-        //     'quote_address_id' => '5',
-        //     'comment' => 'some comment'
-        // ];
     }
 
-    public function testGetMethods(){
+    public function testGetMethods()
+    {
         $comment = new ShippingComment(
-            $this->context, 
+            $this->context,
             $this->registry,
             $this->shippingCommentResource
         );
-        $comment->setData('entity_id', '1');
-        $this->assertSame('1', $comment->getData('entity_id'));
+
+        $comment->setId('1');
+        $this->assertSame('1', $comment->getId());
+
+        $comment->setQuoteAddressId(1);
+        $this->assertSame(1, $comment->getQuoteAddressId());
+
+        $comment->setComment('some comment');
+        $this->assertSame('some comment', $comment->getComment());
     }
 }

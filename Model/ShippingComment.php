@@ -7,8 +7,6 @@ namespace Romchik38\CheckoutShippingComment\Model;
 use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentInterface;
 use Magento\Framework\Model\AbstractModel;
 use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment as ShippingCommentResource;
-use \Magento\Framework\Model\Context;
-use \Magento\Framework\Registry;
 
 class ShippingComment extends AbstractModel implements ShippingCommentInterface
 {
