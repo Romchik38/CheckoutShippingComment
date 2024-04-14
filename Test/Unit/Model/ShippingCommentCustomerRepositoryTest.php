@@ -8,6 +8,7 @@ use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerRepository;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerFactory;
 use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer\CollectionFactory;
 use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer as ShippingCommentCustomerResource;
+use \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer\Collection;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessor;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResultsFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -27,6 +28,7 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
     private $shippingCommentCustomerSearchResultsFactory;
     private $searchCriteriaBuilder;
     private $filterFactory;
+    private $collection;
 
     public function setUp(): void
     {
@@ -37,9 +39,10 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->shippingCommentCustomerSearchResultsFactory = $this->createMock(ShippingCommentCustomerSearchResultsFactory::class);
         $this->searchCriteriaBuilder = $this->createMock(SearchCriteriaBuilder::class);
         $this->filterFactory = $this->createMock(FilterFactory::class);
+        $this->collection = $this->createMock(Collection::class);
     }
 
-    public function createComment(): ShippingCommentCustomerRepository
+    public function createCommentRepository(): ShippingCommentCustomerRepository
     {
         return (
             new ShippingCommentCustomerRepository(
@@ -55,7 +58,7 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
     }
     public function testDelete()
     {
-        $shippingCommentCustomerRepository = $this->createComment();
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
 
         $comment = $this->createMock(ShippingCommentCustomer::class);
         $this->shippingCommentCustomerResource->method('delete')
@@ -70,7 +73,7 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteThrowError()
     {
-        $shippingCommentCustomerRepository = $this->createComment();
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
 
         $comment = $this->createMock(ShippingCommentCustomer::class);
         $this->shippingCommentCustomerResource->method('delete')
@@ -78,5 +81,53 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(CouldNotDeleteException::class);
         $shippingCommentCustomerRepository->delete($comment);
+    }
+
+    public function testGetById()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $commentId = 20;
+        $idFieldName = 'entity_id';
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->collectionFactory->method('create')->willReturn($this->collection);
+
+        $this->shippingCommentCustomerResource
+            ->expects($this->once())
+            ->method('getIdFieldName')
+            ->willReturn($idFieldName);
+
+        $this->collection
+            ->expects($this->once())
+            ->method('addFieldToFilter')
+            ->with(
+                $this->callback(function ($paramFieldId)
+                use ($idFieldName) {
+                    $this->assertSame($idFieldName, $paramFieldId);
+                    return true;
+                }),
+                $this->callback(function ($paramCommentId)
+                use ($commentId) {
+                    $this->assertSame($commentId, $paramCommentId);
+                    return true;
+                })
+            );
+
+        $this->collection
+            ->expects($this->once())
+            ->method('load');
+
+        $this->collection
+            ->expects($this->once())
+            ->method('getSize')
+            ->willReturn(1);
+
+        $this->collection
+            ->expects($this->once())
+            ->method('getFirstItem')
+            ->willReturn($comment);
+
+        $result = $shippingCommentCustomerRepository->getById($commentId);
+        $this->assertSame($comment, $result);
     }
 }
