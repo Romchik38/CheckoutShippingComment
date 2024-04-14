@@ -14,7 +14,6 @@ class ShippingCommentTest extends TestCase
 {
     private $context;
     private $registry;
-    private $data = [];
     private $shippingCommentResource;
 
     public function setUp(): void
@@ -24,7 +23,7 @@ class ShippingCommentTest extends TestCase
         $this->shippingCommentResource = $this->createMock(ShippingCommentResource::class);
     }
 
-    public function testGetMethods()
+    public function testGetSetMethods()
     {
         $comment = new ShippingComment(
             $this->context,
