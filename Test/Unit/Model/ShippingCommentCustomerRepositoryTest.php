@@ -15,6 +15,7 @@ use \Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResult
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\FilterFactory;
+use \Magento\Framework\Api\Filter;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomer;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -192,5 +193,82 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(CouldNotSaveException::class);
         $shippingCommentCustomerRepository->save($comment);
+    }
+
+    public function testCreate()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->shippingCommentCustomerFactory
+            ->expects($this->once())
+            ->method('create')
+            ->willReturn($comment);
+
+        $result = $shippingCommentCustomerRepository->create();
+        $this->assertSame($comment, $result);
+    }
+
+    public function testGetByCustomerAddressId()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $customerAddressId = 1;
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+        $comments = [$comment];
+
+        $filter = $this->createMock(Filter::class);
+        $filter->method('setField')->willReturn($filter);
+        $filter->method('setValue')->willReturn($filter);
+        $filter->method('setConditionType')->willReturn($filter);
+        $this->filterFactory->method('create')->willReturn($filter);
+
+        $this->collectionFactory->method('create')->willReturn($this->collection);
+        $this->collection->method('getItems')->willReturn([]);
+
+        $searchCriteria = $this->createMock(SearchCriteria::class);
+        $this->searchCriteriaBuilder->method('create')->willReturn($searchCriteria);
+
+        $searchResults = $this->createMock(ShippingCommentCustomerSearchResults::class);
+        $this->shippingCommentCustomerSearchResultsFactory->method('create')->willReturn($searchResults);
+        $searchResults
+            ->expects($this->once())
+            ->method('getItems')
+            ->willReturn($comments);
+
+        $result = $shippingCommentCustomerRepository->getByCustomerAddressId($customerAddressId);
+
+        $this->assertSame($comment, $result);
+    }
+
+    public function testGetByCustomerAddressIdThrowError()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $customerAddressId = 1;
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+        $comments = [];
+
+        $filter = $this->createMock(Filter::class);
+        $filter->method('setField')->willReturn($filter);
+        $filter->method('setValue')->willReturn($filter);
+        $filter->method('setConditionType')->willReturn($filter);
+        $this->filterFactory->method('create')->willReturn($filter);
+
+        $this->collectionFactory->method('create')->willReturn($this->collection);
+        $this->collection->method('getItems')->willReturn([]);
+
+        $searchCriteria = $this->createMock(SearchCriteria::class);
+        $this->searchCriteriaBuilder->method('create')->willReturn($searchCriteria);
+
+        $searchResults = $this->createMock(ShippingCommentCustomerSearchResults::class);
+        $this->shippingCommentCustomerSearchResultsFactory->method('create')->willReturn($searchResults);
+        $searchResults
+            ->expects($this->once())
+            ->method('getItems')
+            ->willReturn($comments);
+
+        $this->expectException(NoSuchEntityException::class);
+        $result = $shippingCommentCustomerRepository->getByCustomerAddressId($customerAddressId);
     }
 }
