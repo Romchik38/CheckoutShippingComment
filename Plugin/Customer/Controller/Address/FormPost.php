@@ -81,7 +81,15 @@ class FormPost
                 $this->logger->critical('Error while updating shipping comment customer with customer address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
             }
         } catch (NoSuchEntityException $e) {
-            $this->logger->critical('Comment for customer address id: ' . $addressIdParam . ' doesn\'t exist ( request from customer/address/edit )');
+            // 3. create a comment for existing address ( before module was enabled )
+            $comment = $this->shippingCommentCustomerRepository->create();
+            $comment->setComment($commentParam);
+            $comment->setCustomerAddressId((int)$addressIdParam);
+            try {
+                $this->shippingCommentCustomerRepository->save($comment);
+            } catch (CouldNotSaveException $e) {
+                $this->logger->critical('Error while saving new shipping comment for existing customer with address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
+            }
         }
 
         return $result;
