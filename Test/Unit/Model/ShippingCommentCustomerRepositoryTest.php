@@ -11,7 +11,9 @@ use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustome
 use \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustomer\Collection;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessor;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResultsFactory;
+use \Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerSearchResults;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\FilterFactory;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomer;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -68,7 +70,8 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
             }))
             ->willReturn('true');
 
-        $shippingCommentCustomerRepository->delete($comment);
+        $result = $shippingCommentCustomerRepository->delete($comment);
+        $this->assertSame(true, $result);
     }
 
     public function testDeleteThrowError()
@@ -129,5 +132,65 @@ class ShippingCommentCustomerRepositoryTest extends \PHPUnit\Framework\TestCase
 
         $result = $shippingCommentCustomerRepository->getById($commentId);
         $this->assertSame($comment, $result);
+    }
+
+    public function testGetList()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $items = ['1', '2', '3'];
+
+        $this->collectionFactory->method('create')->willReturn($this->collection);
+        $this->collection->method('getItems')->willReturn($items);
+
+        $searchResults = $this->createMock(ShippingCommentCustomerSearchResults::class);
+        $this->shippingCommentCustomerSearchResultsFactory->method('create')->willReturn($searchResults);
+
+        $searchResults
+            ->expects($this->once())
+            ->method('setItems')
+            ->with(
+                $this->callback(function ($paramItems)
+                use ($items) {
+                    $this->assertSame($items, $paramItems);
+                    return true;
+                })
+            );
+
+        $searchCriteria = $this->createMock(SearchCriteria::class);
+        $result = $shippingCommentCustomerRepository->getList($searchCriteria);
+
+        $this->assertSame($searchResults, $result);
+    }
+
+    public function testSave()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->shippingCommentCustomerResource
+            ->expects($this->once())
+            ->method('save')
+            ->with(
+                $this->callback(function ($paramComment) use ($comment) {
+                    $this->assertSame($comment, $paramComment);
+                    return true;
+                })
+            );
+
+        $shippingCommentCustomerRepository->save($comment);
+    }
+
+    public function testSaveThrowError()
+    {
+        $shippingCommentCustomerRepository = $this->createCommentRepository();
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->shippingCommentCustomerResource
+            ->expects($this->once())
+            ->method('save')
+            ->will($this->throwException(new \Exception('')));
+
+        $this->expectException(CouldNotSaveException::class);
+        $shippingCommentCustomerRepository->save($comment);
     }
 }
