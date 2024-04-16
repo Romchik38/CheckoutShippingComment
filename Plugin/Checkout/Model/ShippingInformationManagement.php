@@ -7,6 +7,9 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Checkout\Model;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Checkout\Api\Data\ShippingInformationInterface;
+use Magento\Checkout\Api\Data\PaymentDetailsInterface;
+use \Magento\Checkout\Model\ShippingInformationManagement as Subject;
 
 /**
  * Saves a comment on shipping step for guests or customer with new address.
@@ -23,11 +26,18 @@ class ShippingInformationManagement
     ) {
     }
 
+    /**
+     * @param Subject $subject
+     * @param PaymentDetailsInterface $result
+     * @param int $cartId
+     * @return PaymentDetailsInterface
+     * @throws NoSuchEntityException
+     */
     public function afterSaveAddressInformation(
         $subject,
         $result,
         $cartId,
-        \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
+        ShippingInformationInterface $addressInformation
     ) {
 
         /** @var \Magento\Quote\Model\Quote\Address $shippingAddress */
@@ -38,8 +48,6 @@ class ShippingInformationManagement
         $quote = $this->quoteRepository->getActive($cartId);
         $quoteShippingAddress = $quote->getShippingAddress();
         $shippingAddressId = $quoteShippingAddress->getId();
-        $saveInAddressBook = $quoteShippingAddress->getSaveInAddressBook();
-        $customerAddressId = $quoteShippingAddress->getCustomerAddressId();
 
         $commentField = $extensionAttributes->getCommentField();
 
