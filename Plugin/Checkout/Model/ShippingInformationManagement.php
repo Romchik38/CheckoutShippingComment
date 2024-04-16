@@ -44,11 +44,6 @@ class ShippingInformationManagement
         $shippingAddress = $addressInformation->getShippingAddress();
         $extensionAttributes = $shippingAddress->getExtensionAttributes();
 
-        /** @var \Magento\Quote\Model\Quote $quote */
-        $quote = $this->quoteRepository->getActive($cartId);
-        $quoteShippingAddress = $quote->getShippingAddress();
-        $shippingAddressId = $quoteShippingAddress->getId();
-
         $commentField = $extensionAttributes->getCommentField();
 
         // 1. exit ( extension attribute wasn't set )
@@ -57,6 +52,10 @@ class ShippingInformationManagement
         }
 
         // 2. check if comment with shippingAddressId already present in comment table
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->quoteRepository->getActive($cartId);
+        $quoteShippingAddress = $quote->getShippingAddress();
+        $shippingAddressId = $quoteShippingAddress->getId();
         try {
             $comment = $this
                 ->shippingCommentRepository
