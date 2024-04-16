@@ -122,7 +122,7 @@ class FormPost
         try {
             $this->addressRepository->save($address);
         } catch (LocalizedException $e) {
-            $this->logger->critical('comment for customer address id ' . $address->getId() .  ' was mot save');
+            $this->logger->critical('comment for customer address id ' . $address->getId() .  ' was not save');
         }
         return;
     }
