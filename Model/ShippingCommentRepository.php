@@ -43,7 +43,7 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         try {
             $this->commentResource->delete($comment);
         } catch (\Exception $e) {
-            throw new CouldNotDeleteException($e->getMessage());
+            throw new CouldNotDeleteException(__($e->getMessage()));
         }
         return true;
     }
