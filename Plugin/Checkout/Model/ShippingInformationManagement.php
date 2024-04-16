@@ -10,6 +10,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Checkout\Api\Data\ShippingInformationInterface;
 use Magento\Checkout\Api\Data\PaymentDetailsInterface;
 use \Magento\Checkout\Model\ShippingInformationManagement as Subject;
+use Magento\Framework\Exception\CouldNotSaveException;
+use \Psr\Log\LoggerInterface;
 
 /**
  * Saves a comment on shipping step for guests or customer with new address.
@@ -22,7 +24,8 @@ class ShippingInformationManagement
 {
     public function __construct(
         private CartRepositoryInterface $quoteRepository,
-        private ShippingCommentRepository $shippingCommentRepository
+        private ShippingCommentRepository $shippingCommentRepository,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -65,7 +68,16 @@ class ShippingInformationManagement
             $comment->setQuoteAddressId((int)$shippingAddressId);
         }
         $comment->setComment($commentField);
-        $this->shippingCommentRepository->save($comment);
+        try {
+            $this->shippingCommentRepository->save($comment);
+        } catch (CouldNotSaveException $e) {
+            $this->logger->critical(
+                'Comment for shippingAddressId: '
+                    . $shippingAddressId . ', with text: '
+                    . $commentField .  ' was not save. Error: '
+                    . $e->getMessage()
+            );
+        }
 
         return $result;
     }
