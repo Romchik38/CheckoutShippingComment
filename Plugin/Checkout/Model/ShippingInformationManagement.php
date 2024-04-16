@@ -8,6 +8,13 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 
+/**
+ * Saves a comment on shipping step for guests or customer with new address.
+ * Customer ( guest ) push "Next" button and this plugin is activated
+ * area - storefront
+ * url - checkout/index/index
+ */
+
 class ShippingInformationManagement
 {
     public function __construct(
