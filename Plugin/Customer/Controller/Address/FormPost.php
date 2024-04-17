@@ -59,7 +59,7 @@ class FormPost
         if (!$isSuccess) {
             return $result;
         }
-        //do 
+        //Do job
         $addressIdParam = $this->request->getParam('id');
         $commentParam = $this->request->getParam('comment');
         // 1. client create a new address
@@ -68,10 +68,11 @@ class FormPost
             return $result;
         }
         // 2. client edit address
+        // 2.1 do nothing because comment param wasn't provided
         if ($commentParam === null) {
             return $result;
         }
-
+        // 2.2 Update existing comment
         try {
             $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId((int)$addressIdParam);
             $comment->setComment($commentParam);
@@ -81,7 +82,7 @@ class FormPost
                 $this->logger->critical('Error while updating shipping comment customer with customer address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
             }
         } catch (NoSuchEntityException $e) {
-            // 3. create a comment for existing address ( before module was enabled )
+        // 2.3 Create a new comment for existing address ( before module was enabled )
             $comment = $this->shippingCommentCustomerRepository->create();
             $comment->setComment($commentParam);
             $comment->setCustomerAddressId((int)$addressIdParam);
