@@ -68,7 +68,7 @@ class FormPost
             return $result;
         }
         // 2. client edit address
-        if (!$commentParam) {
+        if ($commentParam === null) {
             return $result;
         }
 
