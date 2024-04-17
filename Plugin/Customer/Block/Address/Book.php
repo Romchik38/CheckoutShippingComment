@@ -9,7 +9,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Escaper;
 
 /**
- * Plugin add comment to Default Addresses
+ * Plugin add a comment to Default Addresses
  * area - storefront
  * url - customer_address_index 
  */
