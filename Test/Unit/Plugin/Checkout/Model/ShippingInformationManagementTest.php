@@ -16,8 +16,6 @@ use \Magento\Quote\Model\Quote;
 use Magento\Checkout\Model\ShippingInformation;
 use \Romchik38\CheckoutShippingComment\Model\ShippingComment;
 use Magento\Framework\Logger\LoggerProxy;
-
-
 use PHPUnit\Framework\TestCase;
 
 class ShippingInformationManagementTest extends TestCase
