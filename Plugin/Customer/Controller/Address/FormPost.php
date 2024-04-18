@@ -56,7 +56,7 @@ class FormPost
                 break;
             }
         }
-        if (!$isSuccess) {
+        if ($isSuccess === false) {
             return $result;
         }
         //Do job
