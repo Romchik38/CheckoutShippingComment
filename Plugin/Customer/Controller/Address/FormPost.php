@@ -117,7 +117,7 @@ class FormPost
         if (!$address) {
             return;
         }
-        // 3. chech if it dosn't have a comment
+        // 3. check if it dosn't have a comment
         $extensionAttributes = $address->getExtensionAttributes();
         $extensionAttributes->setCommentField($commentField);
         try {
