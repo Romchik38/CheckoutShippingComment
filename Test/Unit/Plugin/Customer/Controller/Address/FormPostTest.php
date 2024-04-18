@@ -81,19 +81,6 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testAfterExecuteNotSuccess()
-    {
-        $plugin = $this->createNewPlugin();
-
-        $this->messageManager->expects($this->once())->method('getMessages')
-            ->willReturn($this->messages);
-
-        $this->messages->expects($this->once())->method('getItems')->willReturn([]);
-
-        $result = $plugin->afterExecute($this->subject, $this->result);
-        $this->assertSame($this->result, $result);
-    }
-
     protected function prepareToSaveNewAddress()
     {
         $customerId = 1;
@@ -119,6 +106,23 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
 
         $this->searchCriteriaBuilder->method('create')->willReturn($this->searchCriteria);
         $this->addressRepository->method('getList')->willReturn($this->addressSearchResults);
+    }
+
+    /**
+     * The plugin do nothing 
+     * because app does't save a customer address
+     * */
+    public function testAfterExecuteNotSuccess()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->messageManager->expects($this->once())->method('getMessages')
+            ->willReturn($this->messages);
+
+        $this->messages->expects($this->once())->method('getItems')->willReturn([]);
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
     }
 
     /**
@@ -169,7 +173,7 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
 
         $this->addressSearchResults->method('getItems')->willReturn([$this->customerAddress]);
         $this->customerAddress->method('getExtensionAttributes')->willReturn($this->addressExtension);
-        
+
         $this->addressRepository->expects($this->once())->method('save')
             ->willThrowException(new LocalizedException(__('')));
 
