@@ -8,6 +8,7 @@ use Romchik38\CheckoutShippingComment\Plugin\Customer\Controller\Address\FormPos
 use Magento\Framework\Message\Manager;
 use Magento\Framework\App\Request\Http;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomerRepository;
+use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomer;
 use \Psr\Log\LoggerInterface\Proxy;
 use Magento\Customer\Model\ResourceModel\AddressRepository;
 use \Magento\Customer\Model\Session;
@@ -23,6 +24,7 @@ use \Magento\Framework\Controller\Result\Redirect as Result;
 use \Magento\Framework\Message\Collection;
 use \Magento\Framework\Message\Success;
 use \Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 class FormPostTest extends \PHPUnit\Framework\TestCase
 {
@@ -81,20 +83,30 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function prepareToSaveNewAddress()
+    protected function prepareSuccess()
     {
-        $customerId = 1;
-
         $this->messageManager->expects($this->once())->method('getMessages')
             ->willReturn($this->messages);
 
         $this->messages->expects($this->once())->method('getItems')
             ->willReturn([$this->messageSuccess]);
+    }
 
-        $callbackGetParam = function ($param) {
-            $arr = ['id' => null, 'comment' => 'some somment'];
+    protected function prepareCallbackGetParam($id, $comment)
+    {
+        return function ($param) use ($id, $comment) {
+            $arr = ['id' => $id, 'comment' => $comment];
             return $arr[$param];
         };
+    }
+
+    protected function prepareToSaveNewAddress()
+    {
+        $customerId = 1;
+
+        $this->prepareSuccess();
+
+        $callbackGetParam = $this->prepareCallbackGetParam(null, 'some somment');
 
         $this->request->method('getParam')->willReturnCallback($callbackGetParam);
 
@@ -176,6 +188,72 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
 
         $this->addressRepository->expects($this->once())->method('save')
             ->willThrowException(new LocalizedException(__('')));
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * 2.1
+     * The plugin do nothing, because comment wasn't provided
+     */
+    public function testAfterExecuteEditWithoutComment()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->prepareSuccess();
+        $callbackGetParam = $this->prepareCallbackGetParam(1, null);
+        $this->request->method('getParam')->willReturnCallback($callbackGetParam);
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * Plugin save comment
+     */
+    public function testAfterExecuteEditAndSave()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->prepareSuccess();
+        $callbackGetParam = $this->prepareCallbackGetParam(1, 'some comment to save');
+        $this->request->method('getParam')->willReturnCallback($callbackGetParam);
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+        $this->shippingCommentCustomerRepository->method('getByCustomerAddressId')
+            ->willReturn($comment);
+
+        $comment->expects($this->once())->method('setComment')
+            ->with($this->equalTo('some comment to save'));
+
+        $this->shippingCommentCustomerRepository->expects($this->once())
+            ->method('save')->with($this->callback(function ($param) use ($comment) {
+                $this->assertSame($comment, $param);
+                return true;
+            }));
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * Plugin save a comment, but repository throw error
+     */
+    public function testAfterExecuteEditAndSaveButSaveThrowError()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->prepareSuccess();
+        $callbackGetParam = $this->prepareCallbackGetParam(1, 'some comment to save');
+        $this->request->method('getParam')->willReturnCallback($callbackGetParam);
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+        $this->shippingCommentCustomerRepository->method('getByCustomerAddressId')
+            ->willReturn($comment);
+
+        $this->shippingCommentCustomerRepository->expects($this->once())
+            ->method('save')->willThrowException(new CouldNotSaveException(__('')));
 
         $result = $plugin->afterExecute($this->subject, $this->result);
         $this->assertSame($this->result, $result);
