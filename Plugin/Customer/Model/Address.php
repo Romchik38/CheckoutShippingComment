@@ -23,6 +23,9 @@ class Address
     ) {
     }
 
+    /**
+     * @param \Magento\Customer\Model\Address $subject
+     */
     public function afterGetDataModel(
         $subject,
         \Magento\Customer\Model\Data\Address $result
@@ -32,10 +35,13 @@ class Address
         $extensionAttributes = $result->getExtensionAttributes();
 
         try {
-            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId((int)$customerAddressId);
+            $comment = $this->shippingCommentCustomerRepository
+                ->getByCustomerAddressId((int)$customerAddressId);
             $extensionAttributes->setCommentField($comment->getComment());
             $result->setExtensionAttributes($extensionAttributes);
         } catch (NoSuchEntityException $e) {
+            // do nothing because the client address 
+            // may be created before the module is enabled
         }
 
         return $result;
