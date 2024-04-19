@@ -25,6 +25,7 @@ use \Magento\Framework\Message\Collection;
 use \Magento\Framework\Message\Success;
 use \Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class FormPostTest extends \PHPUnit\Framework\TestCase
 {
@@ -251,6 +252,66 @@ class FormPostTest extends \PHPUnit\Framework\TestCase
         $comment = $this->createMock(ShippingCommentCustomer::class);
         $this->shippingCommentCustomerRepository->method('getByCustomerAddressId')
             ->willReturn($comment);
+
+        $this->shippingCommentCustomerRepository->expects($this->once())
+            ->method('save')->willThrowException(new CouldNotSaveException(__('')));
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * 2.3
+     * Plugin create a comment for existing customer address 
+     */
+    public function testAfterExecuteEditAndCreateNewComment()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->prepareSuccess();
+        $callbackGetParam = $this->prepareCallbackGetParam(1, 'some comment to save');
+        $this->request->method('getParam')->willReturnCallback($callbackGetParam);
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->shippingCommentCustomerRepository->expects($this->once())
+            ->method('getByCustomerAddressId')
+            ->willThrowException(new NoSuchEntityException(__('')));
+        $this->shippingCommentCustomerRepository->method('create')->willReturn($comment);
+
+        $comment->expects($this->once())->method('setComment')
+            ->with($this->equalTo('some comment to save'));
+        $comment->expects($this->once())->method('setCustomerAddressId')
+            ->with($this->equalTo(1));
+
+        $this->shippingCommentCustomerRepository->expects($this->once())
+            ->method('save')->with($this->callback(function ($param) use ($comment) {
+                $this->assertSame($comment, $param);
+                return true;
+            }));
+
+        $result = $plugin->afterExecute($this->subject, $this->result);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * 2.3
+     * Plugin create a comment for existing customer address but repository save method
+     * throw exception
+     */
+    public function testAfterExecuteEditAndCreateNewCommentButSaveThrowException()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->prepareSuccess();
+        $callbackGetParam = $this->prepareCallbackGetParam(1, 'some comment to save');
+        $this->request->method('getParam')->willReturnCallback($callbackGetParam);
+
+        $comment = $this->createMock(ShippingCommentCustomer::class);
+
+        $this->shippingCommentCustomerRepository->method('getByCustomerAddressId')
+            ->willThrowException(new NoSuchEntityException(__('')));
+        $this->shippingCommentCustomerRepository->method('create')->willReturn($comment);
 
         $this->shippingCommentCustomerRepository->expects($this->once())
             ->method('save')->willThrowException(new CouldNotSaveException(__('')));
