@@ -11,14 +11,16 @@ use \Magento\Customer\Api\Data\AddressExtension;
 class CustomerAddressDataFormatterTest extends \PHPUnit\Framework\TestCase
 {
     private $subject;
+    private $addressExtension;
 
     public function setUp(): void
     {
         $this->subject = $this->createMock(Subject::class);
+        $this->addressExtension = $this->createMock(AddressExtension::class);
     }
 
     /**
-     * 'extension_attributes' doesn't exist
+     * key 'extension_attributes' doesn't exist
      */
     public function testAfterPrepareAddressNoExtension()
     {
@@ -29,6 +31,43 @@ class CustomerAddressDataFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($arr, $result);
     }
 
-    // 2 $extensionAttributes not instanceof \Magento\Customer\Api\Data\AddressExtension
-    // 3 check __toArray and new result
+    /**
+     * $extensionAttributes not instanceof \Magento\Customer\Api\Data\AddressExtension
+     */
+    public function testAfterPrepareAddressIsNotInstanceofExtension()
+    {
+        $plugin = new Plugin();
+
+        $fakeExtension = (
+            new class
+            {
+                public function __toArray()
+                {
+                    return 'I am not an array';
+                }
+            }
+        );
+
+        $arr =  ['extension_attributes' => $fakeExtension];
+        $result = $plugin->afterPrepareAddress($this->subject, $arr);
+
+        $this->assertNotEquals('I am not an array', $result['extension_attributes']);
+    }
+
+    /**
+     * check __toArray
+     */
+    public function testAfterPrepareAddress()
+    {
+        $plugin = new Plugin();
+
+        $this->addressExtension->expects($this->once())->method('__toArray')
+            ->willReturn(['Yes, I am array']);
+
+
+        $arr =  ['extension_attributes' =>  $this->addressExtension];
+        $result = $plugin->afterPrepareAddress($this->subject, $arr);
+
+        $this->assertSame(['Yes, I am array'], $result['extension_attributes']);
+    }
 }
