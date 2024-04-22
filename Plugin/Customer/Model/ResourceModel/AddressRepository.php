@@ -12,7 +12,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * 
- * Save a comment for new or existing customer address
+ * Save a comment for new or existing customer address or
+ *  get existing comment
  * area - storefront 
  * url - checkout_index_index
  * 
@@ -28,14 +29,15 @@ class AddressRepository
     }
 
     /** 
-     *  @param int $addressId 
+     * @param \Magento\Customer\Model\ResourceModel\AddressRepository $subject
+     * @param int $addressId 
+     * @return \Magento\Customer\Model\Data\Address
      */
     public function afterGetById(
         $subject,
         \Magento\Customer\Model\Data\Address $result,
         $addressId,
     ) {
-        $customerAddressId = $result->getId();
         $extensionAttributes = $result->getExtensionAttributes();
 
         $commentField = $extensionAttributes->getCommentField();
@@ -45,7 +47,7 @@ class AddressRepository
         }
 
         try {
-            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId((int)$customerAddressId);
+            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($addressId);
             $extensionAttributes->setCommentField($comment->getComment());
             $result->setExtensionAttributes($extensionAttributes);
         } catch (NoSuchEntityException $e) {
@@ -53,10 +55,17 @@ class AddressRepository
         return $result;
     }
 
-    // public function afterGetList(){}
-    // do not need, because inside getList() used getById():
-    //      $addresses[] = $this->getById($address->getId());
+    /**
+     * public function afterGetList()
+     * {
+     *      Do not need, because inside getList() used getById():
+     *      $addresses[] = $this->getById($address->getId());
+     * }
+     */
 
+    /**
+     * Save provided comment
+     */
     public function afterSave(
         $subject,
         \Magento\Customer\Api\Data\AddressInterface $result,
