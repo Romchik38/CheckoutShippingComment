@@ -12,6 +12,8 @@ use Magento\Customer\Model\ResourceModel\AddressRepository as Subject;
 use \Magento\Customer\Model\Data\Address as Result;
 use \Magento\Customer\Api\Data\AddressExtension;
 use Romchik38\CheckoutShippingComment\Model\ShippingCommentCustomer;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,6 +25,7 @@ class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
     private $addressId = 1;
     private $addressExtension;
     private $comment;
+    private $address;
 
     public function setUp(): void
     {
@@ -35,6 +38,7 @@ class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->result = $this->createMock(Result::class);
         $this->addressExtension = $this->createMock(AddressExtension::class);
         $this->comment = $this->createMock(ShippingCommentCustomer::class);
+        $this->address = $this->createMock(Result::class);
     }
 
     private function createNewPlugin()
@@ -60,12 +64,12 @@ class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
 
         $this->ShippingCommentCustomerRepository->expects($this->never())
             ->method('getByCustomerAddressId');
-        
+
         $result = $plugin->afterGetById($this->subject, $this->result, $this->addressId);
         $this->assertSame($this->result, $result);
     }
 
-     /**
+    /**
      * Find a comment for provided customer address
      */
     public function testAfterGetById()
@@ -86,12 +90,173 @@ class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
             ->with($this->equalTo($commentText));
 
         $this->result->expects($this->once())->method('setExtensionAttributes')
-            ->with($this->callback(function($param){
+            ->with($this->callback(function ($param) {
                 $this->assertSame($this->addressExtension, $param);
                 return true;
             }));
-        
+
         $result = $plugin->afterGetById($this->subject, $this->result, $this->addressId);
+        $this->assertSame($this->result, $result);
+    }
+
+    public function testAfterGetByIdThrowError()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->result->method('getExtensionAttributes')->willReturn($this->addressExtension);
+        $this->addressExtension->method('getCommentField')->willReturn(null);
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('getByCustomerAddressId')
+            ->willThrowException(new NoSuchEntityException(__('')));
+
+        $result = $plugin->afterGetById($this->subject, $this->result, $this->addressId);
+        $this->assertSame($this->result, $result);
+    }
+
+    /**
+     * SAVE METHOD
+     */
+
+    public function testAfterSaveCommentFieldNotProvided()
+    {
+        $plugin = $this->createNewPlugin();
+
+        $this->address->method('getExtensionAttributes')
+            ->willReturn($this->addressExtension);
+
+        $this->addressExtension->method('getCommentField')->willReturn(null);
+
+        $this->ShippingCommentCustomerRepository->expects($this->never())
+            ->method('getByCustomerAddressId');
+
+        $result = $plugin->afterSave($this->subject, $this->result, $this->address);
+        $this->assertSame($this->result, $result);
+    }
+
+    public function testAfterSave()
+    {
+        $plugin = $this->createNewPlugin();
+        $customerAddressId = '1';
+        $commentText = 'some comment save 1';
+
+        $this->result->method('getId')->willReturn($customerAddressId);
+
+        $this->address->method('getExtensionAttributes')
+            ->willReturn($this->addressExtension);
+
+        $this->addressExtension->method('getCommentField')->willReturn($commentText);
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('getByCustomerAddressId')
+            ->with($this->equalTo($customerAddressId))
+            ->willReturn($this->comment);
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('save')
+            ->with($this->callback(function ($param) {
+                $this->assertSame($this->comment, $param);
+                return true;
+            }));
+
+        $result = $plugin->afterSave($this->subject, $this->result, $this->address);
+        $this->assertSame($this->result, $result);
+    }
+
+    public function testAfterSaveThrowError()
+    {
+        $plugin = $this->createNewPlugin();
+        $customerAddressId = '2';
+        $commentText = 'some comment save 2';
+
+        $this->result->method('getId')->willReturn($customerAddressId);
+
+        $this->address->method('getExtensionAttributes')
+            ->willReturn($this->addressExtension);
+
+        $this->addressExtension->method('getCommentField')->willReturn($commentText);
+
+        $this->ShippingCommentCustomerRepository->method('getByCustomerAddressId')
+            ->willReturn($this->comment);
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('save')
+            ->willThrowException(new CouldNotSaveException(__('')));
+
+        $result = $plugin->afterSave($this->subject, $this->result, $this->address);
+        $this->assertSame($this->result, $result);
+    }
+
+    public function testAfterSaveNewComment()
+    {
+        $plugin = $this->createNewPlugin();
+        $customerAddressId = '3';
+        $commentText = 'some comment save 3';
+
+        $this->result->method('getId')->willReturn($customerAddressId);
+
+        $this->address->method('getExtensionAttributes')
+            ->willReturn($this->addressExtension);
+
+        $this->addressExtension->method('getCommentField')->willReturn($commentText);
+
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('getByCustomerAddressId')
+            ->willThrowException(new NoSuchEntityException(__('')));
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('create')->willReturn($this->comment);
+
+        $this->comment->method('setComment')->with($this->equalTo($commentText));
+        $this->comment->method('setCustomerAddressId')->with($this->equalTo($customerAddressId));
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('save')
+            ->with($this->callback(function ($param) {
+                $this->assertSame($this->comment, $param);
+                return true;
+            }));
+
+        $result = $plugin->afterSave($this->subject, $this->result, $this->address);
+        $this->assertSame($this->result, $result);
+    }
+
+    public function testAfterSaveNewCommentRepositoryThrowError()
+    {
+        $plugin = $this->createNewPlugin();
+        $customerAddressId = '4';
+        $commentText = 'some comment save 4';
+
+        $this->result->method('getId')->willReturn($customerAddressId);
+
+        $this->address->method('getExtensionAttributes')
+            ->willReturn($this->addressExtension);
+
+        $this->addressExtension->method('getCommentField')->willReturn($commentText);
+
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('getByCustomerAddressId')
+            ->willThrowException(new NoSuchEntityException(__('')));
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('create')->willReturn($this->comment);
+
+        $this->comment->method('setComment')->with($this->equalTo($commentText));
+        $this->comment->method('setCustomerAddressId')->with($this->equalTo($customerAddressId));
+
+
+        $this->ShippingCommentCustomerRepository->expects($this->once())
+            ->method('save')
+            ->willThrowException(new CouldNotSaveException(__('')));
+
+        $result = $plugin->afterSave($this->subject, $this->result, $this->address);
         $this->assertSame($this->result, $result);
     }
 }
