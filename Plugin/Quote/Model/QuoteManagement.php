@@ -9,7 +9,10 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
 /**
- * Add shipping comment to quote extension attributes before place order
+ * Add a shipping comment to quote extension attributes
+ *  The Plugin starts after a customer pushed "Place order" button
+ * area - storefront
+ * url - checkout/index/index
  */
 class QuoteManagement
 {
@@ -19,10 +22,14 @@ class QuoteManagement
     ) {
     }
 
+    /**
+     * @param \Magento\Quote\Model\QuoteManagement $subject
+     * @param \Magento\Quote\Model\Quote $quote
+     */
     public function beforeSubmit(
         $subject,
         $quote
-    ) {
+    ): array|null {
 
         $quoteId = $quote->getId();
 
