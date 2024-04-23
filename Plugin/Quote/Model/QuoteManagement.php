@@ -48,6 +48,7 @@ class QuoteManagement
             $quoteShippingAddress->setExtensionAttributes($quoteShippingAddressExtensionAttributes);
         } catch (NoSuchEntityException $e) {
             $this->logger->critical('Error while getting shipping comment with shippingAddressId: ' . $shippingAddressId . ' while placing an order with quote_id: ' . $quoteId);
+            return null;
         }
 
         return [$quote];
