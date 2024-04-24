@@ -9,6 +9,11 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Quote\Model\Quote;
  * Customer extension attributes
  * while app saving new customer address 
  * before placing an order
+ * 
+ * Works only for customer
+ * 
+ * area - storefront
+ * url - checkout/index/index
  */
 class Address
 {
@@ -22,7 +27,7 @@ class Address
     /** @var \Magento\Quote\Api\Data\AddressExtension */
     $extensionAttributes = $subject->getExtensionAttributes();
     $commentField = $extensionAttributes->getCommentField();
-    if ($commentField) {
+    if ($commentField !== null) {
       /** @var \Magento\Customer\Api\Data\AddressExtension */
       $resultExtensionAttributes = $result->getExtensionAttributes();
       $resultExtensionAttributes->setCommentField($commentField);
