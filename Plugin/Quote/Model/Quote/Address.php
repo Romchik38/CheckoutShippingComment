@@ -10,7 +10,8 @@ namespace Romchik38\CheckoutShippingComment\Plugin\Quote\Model\Quote;
  * while app saving new customer address 
  * before placing an order
  * 
- * Works only for customer
+ * Works only for customer new address with checkbox 
+ *   "Save in Address Book" selected
  * 
  * area - storefront
  * url - checkout/index/index
