@@ -14,8 +14,6 @@ use \Magento\Quote\Model\Quote\Address;
 use Romchik38\CheckoutShippingComment\Model\ShippingComment;
 use \Magento\Quote\Api\Data\AddressExtension;
 
-use function PHPUnit\Framework\equalTo;
-
 class QuoteManagementTest extends \PHPUnit\Framework\TestCase
 {
     private $shippingCommentRepository;
