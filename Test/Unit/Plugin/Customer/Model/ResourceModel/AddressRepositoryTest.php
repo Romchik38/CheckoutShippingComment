@@ -22,7 +22,7 @@ class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
     private $logger;
     private $subject;
     private $result;
-    private $addressId = 1;
+    private $addressId = '1';
     private $addressExtension;
     private $comment;
     private $address;
