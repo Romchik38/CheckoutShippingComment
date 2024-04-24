@@ -47,7 +47,7 @@ class AddressRepository
         }
 
         try {
-            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId($addressId);
+            $comment = $this->shippingCommentCustomerRepository->getByCustomerAddressId((int)$addressId);
             $extensionAttributes->setCommentField($comment->getComment());
             $result->setExtensionAttributes($extensionAttributes);
         } catch (NoSuchEntityException $e) {
