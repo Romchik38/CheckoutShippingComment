@@ -3,9 +3,8 @@ define([
     './edit/param',
     './edit/input',
     './edit/url',
-    'mage/url',
-    'Magento_Customer/js/customer-data'
-], function ($, param, createInputTag, getCommentId, url, customerData) {
+    'mage/url'
+], function ($, param, createInputTag, getCommentId, url) {
     'use strict';
 
     var insertAfter = function (referenceNode, newNode) {
@@ -32,7 +31,7 @@ define([
 
     var commentId = getCommentId(window.location.pathname);
     if (commentId.length > 0) {
-        // do request on server as fast as possible   
+        // do request on the server as fast as possible   
         var requestUrl = url.build(('shippingcomment/customer/edit/id/' + commentId));
 
         $.ajax({
@@ -51,7 +50,6 @@ define([
 
     // main programm
     var execute = () => {
-        // if (commentId.length === 0) return;
         var tag = document.querySelector(param.selector);
         if (tag === null) return;
         var div = createInputTag(param.input);

@@ -29,7 +29,6 @@ define([], function () {
                                 type: 'text',
                                 name: 'comment',
                                 title: 'Shipping comment',
-                                // disabled: 1
                             }
                         }
                     ]
