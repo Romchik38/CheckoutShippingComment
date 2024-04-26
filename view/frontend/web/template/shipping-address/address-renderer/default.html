@@ -22,7 +22,10 @@
         <br>
     </each>
     <!-- CheckoutShippingComment start -->
-    <a attr="'href': url + address().customerAddressId, 'target': '_self'" text="'Edit'"></a><br>
+    <a attr="'href': url + address().customerAddressId, 'target': '_self'" 
+       text="'Edit'"
+       visible="!address().isEditable()">
+    </a><br>
     <!-- CheckoutShippingComment end -->
     <button visible="address().isEditable()" type="button"
             class="action edit-address-link"
