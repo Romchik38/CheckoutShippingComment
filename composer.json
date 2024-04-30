@@ -1,0 +1,20 @@
+{
+    "name": "romchik38/checkoutshippingcomment",
+    "description": "Magento 2 module adds a comment to checkout shipping address form",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0"
+    ],
+    "version": "1.0.0",
+    "require": {
+        "php": "8.2.*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Romchik38\\CheckoutShippingComment\\": ""
+        }
+    }
+}
