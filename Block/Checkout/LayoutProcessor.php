@@ -10,18 +10,26 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class LayoutProcessor implements LayoutProcessorInterface
 {
 
-    const CONFIG_SORTORDER_PATH = 'checkoutshippingcomment/checkout/comment_sortOrder';     
+    protected const CONFIG_SORTORDER_PATH = 'checkoutshippingcomment/checkout/comment_sortOrder';
 
+    /**
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     */
     public function __construct(
         private ScopeConfigInterface $scopeConfig,
-    )
-    {        
+    ) {
     }
 
+    /**
+     * Add a comment field to the jsLayout
+     *
+     * @param array $jsLayout
+     * @return array
+     */
     public function process($jsLayout)
     {
 
-        $sortOrder = (int)$this->scopeConfig->getValue($this::CONFIG_SORTORDER_PATH);    
+        $sortOrder = (int)$this->scopeConfig->getValue($this::CONFIG_SORTORDER_PATH);
         $commentAttributeCode = 'comment_field';
 
         $commentField = [
@@ -54,8 +62,10 @@ class LayoutProcessor implements LayoutProcessorInterface
 
         ];
 
-
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children'][$commentAttributeCode] = $commentField;
+        $jsLayout['components']['checkout']['children']['steps']['children']
+            ['shipping-step']['children']['shippingAddress']['children']
+            ['shipping-address-fieldset']['children']
+            [$commentAttributeCode] = $commentField;
 
         return $jsLayout;
     }

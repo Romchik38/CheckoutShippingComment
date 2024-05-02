@@ -12,13 +12,12 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use \Magento\Framework\Exception\LocalizedException;
 
-
 /**
  * rest api for customer address
  * area - storefront
  * url - /customer/address/edit/id/1
- * 
- * takes id from get request 
+ *
+ * takes id from get request
  * return a json object:
  *      {error: "text"}
  *          or
@@ -26,7 +25,12 @@ use \Magento\Framework\Exception\LocalizedException;
  */
 class Edit implements HttpGetActionInterface
 {
-
+    /**
+     * @param Magento\Framework\Controller\Result\JsonFactory $jsonFactory
+     * @param Magento\Customer\Model\Session $customerSession
+     * @param Magento\Framework\App\RequestInterface $request
+     * @param Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     */
     public function __construct(
         private JsonFactory $jsonFactory,
         private Session $customerSession,
@@ -35,16 +39,35 @@ class Edit implements HttpGetActionInterface
     ) {
     }
 
+    /**
+     * Create output array with error message
+     *
+     * @param string $message
+     * @return array
+     */
     public function error(string $message)
     {
         return ['error' => $message];
     }
 
+    /**
+     * Create output array with comment text
+     *
+     * @param string $comment
+     * @return array
+     */
     public function data(string $comment)
     {
         return ['data' => $comment];
     }
 
+    /**
+     * Send comment text with provided address id
+     *
+     * Customer must be logged in
+     *
+     * @return Magento\Framework\Controller\Result\Json
+     */
     public function execute(): Json
     {
         $json = $this->jsonFactory->create();

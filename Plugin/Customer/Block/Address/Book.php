@@ -11,11 +11,14 @@ use Magento\Framework\Escaper;
 /**
  * Plugin add a comment to Default Addresses
  * area - storefront
- * url - customer_address_index 
+ * url - customer_address_index
  */
 class Book
 {
-
+    /**
+     * @param ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository
+     * @param \Magento\Framework\Escaper $escaper
+     */
     public function __construct(
         private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository,
         private Escaper $escaper
@@ -23,7 +26,10 @@ class Book
     }
 
     /**
+     * Add comment text
+     *
      * @param \Magento\Customer\Block\Address\Book $subject
+     * @param string $result
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      */
     public function afterGetAddressHtml(
@@ -40,6 +46,7 @@ class Book
                 $result = $result . '<br><span class="comment">comment: ' . ($commentFieldEscaped) . '</span>';
             }
         } catch (NoSuchEntityException $e) {
+            
         }
         return $result;
     }

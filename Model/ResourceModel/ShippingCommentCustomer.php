@@ -8,9 +8,12 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 class ShippingCommentCustomer extends AbstractDb
 {
-    const TABLE = 'rm38_checkout_shipping_comment_customer';
-    const PRIMARY_FIELD = 'entity_id';
+    public const TABLE = 'rm38_checkout_shipping_comment_customer';
+    public const PRIMARY_FIELD = 'entity_id';
 
+    /**
+     * Init method
+     */
     protected function _construct()
     {
         $this->_init(self::TABLE, self::PRIMARY_FIELD);

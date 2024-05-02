@@ -7,6 +7,7 @@ namespace Romchik38\CheckoutShippingComment\Model;
 use Romchik38\CheckoutShippingComment\Api\Data\ShippingCommentCustomerSearchResultsInterface;
 use Magento\Framework\Api\SearchResults;
 
-class ShippingCommentCustomerSearchResults extends SearchResults implements ShippingCommentCustomerSearchResultsInterface
+class ShippingCommentCustomerSearchResults extends SearchResults implements
+    ShippingCommentCustomerSearchResultsInterface
 {
 }

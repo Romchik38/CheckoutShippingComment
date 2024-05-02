@@ -10,6 +10,9 @@ use Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingCommentCustome
 
 class Collection extends AbstractCollection
 {
+    /**
+     * Init method
+     */
     protected function _construct()
     {
         parent::_construct();

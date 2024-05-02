@@ -22,6 +22,15 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 class ShippingCommentRepository implements ShippingCommentRepositoryInterface
 {
 
+    /**
+     * @param \Romchik38\CheckoutShippingComment\Model\ShippingCommentFactory $commentFactory
+     * @param CollectionFactory $collectionFactory
+     * @param \Romchik38\CheckoutShippingComment\Model\ResourceModel\ShippingComment $commentResource
+     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
+     * @param \Romchik38\CheckoutShippingComment\Model\ShippingCommentSearchResultsFactory $commentSearchResultsFactory
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterFactory $filterFactory
+     */
     public function __construct(
         private ShippingCommentFactory $commentFactory,
         private CollectionFactory $collectionFactory,
@@ -34,6 +43,8 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
     }
 
     /**
+     * Delete comment entity
+     *
      * @param ShippingCommentInterface $comment
      * @return bool
      * @throws CouldNotDeleteException
@@ -49,6 +60,8 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
     }
 
     /**
+     * Delete comment entity by provided id
+     *
      * @param int $commentId
      * @return bool
      * @throws NoSuchEntityException
@@ -80,6 +93,8 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
     }
 
     /**
+     * Retrive a list of comments by provided search criteria
+     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return ShippingCommentSearchResultsInterface
      */
@@ -95,6 +110,12 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $searchResults;
     }
 
+    /**
+     * Saves comment entity
+     *
+     * @param ShippingCommentInterface $comment
+     * @return ShippingCommentInterface
+     */
     public function save(ShippingCommentInterface $comment): ShippingCommentInterface
     {
         try {
@@ -105,12 +126,19 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         return $comment;
     }
 
+    /**
+     * Creates a new comment entity
+     *
+     * @return ShippingCommentInterface
+     */
     public function create(): ShippingCommentInterface
     {
         return $this->commentFactory->create();
     }
 
     /**
+     * Retrives a comment entity by provided Quote Address Id
+     *
      * @param int $quoteAddressId
      * @return ShippingCommentInterface
      * @throws NoSuchEntityException
@@ -126,7 +154,10 @@ class ShippingCommentRepository implements ShippingCommentRepositoryInterface
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $comments = $this->getList($searchCriteria)->getItems();
         if (count($comments) === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment with the Quote Address Id "%1" doesn\'t exist.', $quoteAddressId));
+            throw new NoSuchEntityException(__(
+                'The Shipping Comment with the Quote Address Id "%1" doesn\'t exist.',
+                $quoteAddressId
+            ));
         } else {
             $comment = array_shift($comments);
             return $comment;

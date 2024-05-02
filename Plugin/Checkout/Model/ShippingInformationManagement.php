@@ -22,6 +22,11 @@ use \Psr\Log\LoggerInterface;
 
 class ShippingInformationManagement
 {
+    /**
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param \Romchik38\CheckoutShippingComment\Model\ShippingCommentRepository $shippingCommentRepository
+     * @param \Psr\Log\LoggerInterface $logger
+     */
     public function __construct(
         private CartRepositoryInterface $quoteRepository,
         private ShippingCommentRepository $shippingCommentRepository,
@@ -30,9 +35,12 @@ class ShippingInformationManagement
     }
 
     /**
+     * Saves provided comment to database
+     *
      * @param Subject $subject
      * @param PaymentDetailsInterface $result
      * @param int $cartId
+     * @param \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
      * @return PaymentDetailsInterface
      * @throws NoSuchEntityException
      */

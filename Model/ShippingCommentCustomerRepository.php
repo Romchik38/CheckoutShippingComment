@@ -20,7 +20,9 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
- * ShippingCommentCustomerRepository
+ * ShippingCommentCustomer Repository
+ *
+ * CRUD interface, create entity, getList
  */
 class ShippingCommentCustomerRepository implements ShippingCommentCustomerRepositoryInterface
 {
@@ -28,6 +30,13 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
     /**
      * Method __construct
      *
+     * @param ShippingCommentCustomerFactory $commentFactory
+     * @param ShippingCommentCustomer\CollectionFactory $collectionFactory
+     * @param ShippingCommentCustomerResource $commentResource
+     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
+     * @param ShippingCommentCustomerSearchResultsFactory $commentSearchResultsFactory
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterFactory $filterFactory
      * @return void
      */
     public function __construct(
@@ -42,6 +51,8 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
     }
 
     /**
+     * Delete comment entity from database
+     *
      * @param ShippingCommentCustomerInterface $comment
      * @return bool
      * @throws CouldNotDeleteException
@@ -57,6 +68,8 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
     }
 
     /**
+     * Delete comment entity from database by provided id
+     *
      * @param int $commentId
      * @return bool
      * @throws NoSuchEntityException
@@ -82,12 +95,17 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
         $collection->addFieldToFilter($idFieldName, $commentId);
         $collection->load();
         if ($collection->getSize() === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment Customer with the "%1" ID doesn\'t exist.', $commentId));
+            throw new NoSuchEntityException(__(
+                'The Shipping Comment Customer with the "%1" ID doesn\'t exist.',
+                $commentId
+            ));
         }
         return $collection->getFirstItem();
     }
 
     /**
+     * Get list of comments by provided search criteria
+     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return ShippingCommentCustomerSearchResultsInterface
      */
@@ -106,7 +124,7 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
     /**
      * Method save
      *
-     * @param ShippingCommentCustomerInterface $comment 
+     * @param ShippingCommentCustomerInterface $comment
      * @throws CouldNotSaveException
      * @return ShippingCommentCustomerInterface
      */
@@ -131,6 +149,8 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
     }
 
     /**
+     * Get comment entity by provided Customer Address Id
+     *
      * @param int $customerAddressId
      * @return ShippingCommentCustomerInterface
      * @throws NoSuchEntityException
@@ -146,7 +166,10 @@ class ShippingCommentCustomerRepository implements ShippingCommentCustomerReposi
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $comments = $this->getList($searchCriteria)->getItems();
         if (count($comments) === 0) {
-            throw new NoSuchEntityException(__('The Shipping Comment Customer with the Customer Address Id "%1" doesn\'t exist.', $customerAddressId));
+            throw new NoSuchEntityException(__(
+                'The Shipping Comment Customer with the Customer Address Id "%1" doesn\'t exist.',
+                $customerAddressId
+            ));
         } else {
             $comment = array_shift($comments);
             return $comment;

@@ -10,12 +10,21 @@ use Magento\Customer\Api\Data\AddressExtensionFactory;
 
 class AddressAttributesLoad
 {
+    /**
+     * @param \Magento\Customer\Api\Data\AddressExtensionFactory $extensionFactory
+     */
     public function __construct(
         private AddressExtensionFactory $extensionFactory
     ) {
         $this->extensionFactory = $extensionFactory;
     }
 
+    /**
+     * Creates extension
+     *
+     * @param \Magento\Customer\Api\Data\AddressInterface $entity
+     * @param \Magento\Customer\Api\Data\AddressExtensionInterface|null $extension
+     */
     public function afterGetExtensionAttributes(
         AddressInterface $entity,
         AddressExtensionInterface $extension = null
