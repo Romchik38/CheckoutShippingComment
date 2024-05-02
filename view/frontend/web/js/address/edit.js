@@ -3,7 +3,8 @@ define([
     './edit/param',
     './edit/input',
     './edit/url',
-    'mage/url'
+    'mage/url',
+    'Magento_Customer/js/customer-data',
 ], function ($, param, createInputTag, getCommentId, url) {
     'use strict';
 
@@ -33,7 +34,7 @@ define([
     if (commentId.length > 0) {
         // do request on the server as fast as possible   
         var requestUrl = url.build(('shippingcomment/customer/edit/id/' + commentId));
-
+      
         $.ajax({
             url: requestUrl,
         })
