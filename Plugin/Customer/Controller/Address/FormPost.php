@@ -25,6 +25,17 @@ use \Magento\Framework\Api\SortOrderFactory;
  */
 class FormPost
 {
+    /**
+     *
+     * @param ManagerInterface $messageManager
+     * @param RequestInterface $request
+     * @param ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository
+     * @param LoggerInterface $logger
+     * @param AddressRepositoryInterface $addressRepository
+     * @param Session $customerSession
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SortOrderFactory $sortOrderFactory
+     */
     public function __construct(
         private ManagerInterface $messageManager,
         private RequestInterface $request,
@@ -38,6 +49,8 @@ class FormPost
     }
 
     /**
+     * Saves a comment
+     *
      * @param \Magento\Customer\Controller\Address\FormPost $subject
      * @param \Magento\Framework\Controller\Result\Redirect $result
      * @return \Magento\Framework\Controller\Result\Redirect
@@ -79,26 +92,40 @@ class FormPost
             try {
                 $this->shippingCommentCustomerRepository->save($comment);
             } catch (CouldNotSaveException $e) {
-                $this->logger->critical('Error while updating shipping comment customer with customer address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
+                $this->logger->critical(
+                    'Error while updating shipping comment customer with customer address id: '
+                    . $addressIdParam
+                    . ' ( request from customer/address/edit )'
+                );
             }
         } catch (NoSuchEntityException $e) {
-        // 2.3 Create a new comment for existing address ( before module was enabled )
+            // 2.3 Create a new comment for existing address ( before module was enabled )
             $comment = $this->shippingCommentCustomerRepository->create();
             $comment->setComment($commentParam);
             $comment->setCustomerAddressId((int)$addressIdParam);
             try {
                 $this->shippingCommentCustomerRepository->save($comment);
             } catch (CouldNotSaveException $e) {
-                $this->logger->critical('Error while saving new shipping comment for existing customer with address id: ' . $addressIdParam . ' ( request from customer/address/edit )');
+                $this->logger->critical(
+                    'Error while saving new shipping comment for existing customer with address id: '
+                    . $addressIdParam
+                    . ' ( request from customer/address/edit )'
+                );
             }
         }
 
         return $result;
     }
 
-    public function saveNewAddress($comment)
+    /**
+     * Save a comment when customer create a new address
+     *
+     * @param string|null $comment
+     * @return void
+     */
+    public function saveNewAddress(string|null $comment)
     {
-        if (!$comment) {
+        if ($comment === null) {
             $commentField = '';
         } else {
             $commentField = $comment;
