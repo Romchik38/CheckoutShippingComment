@@ -15,7 +15,7 @@ Magento 2 module adds a comment to checkout shipping address form.
 
 ## Status
 
-The Module is working. Tests in progress.
+The Module is working, testing it. Last preperance.
 
 ## Versions
 
