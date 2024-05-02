@@ -19,6 +19,8 @@ interface ShippingCommentRepositoryInterface
 {
 
     /**
+     * Delete comment entity
+     *
      * @param ShippingCommentInterface $comment
      * @return bool
      * @throws CouldNotDeleteException
@@ -26,6 +28,8 @@ interface ShippingCommentRepositoryInterface
     public function delete(ShippingCommentInterface $comment): bool;
 
     /**
+     * Delete comment entity by provided id
+     *
      * @param int $commentId
      * @return bool
      * @throws NoSuchEntityException
@@ -34,6 +38,8 @@ interface ShippingCommentRepositoryInterface
     public function deleteById(int $commentId): bool;
 
     /**
+     * Retrive a comment entity from database by provided id
+     *
      * @param int $commentId
      * @return ShippingCommentInterface
      * @throws NoSuchEntityException
@@ -49,7 +55,8 @@ interface ShippingCommentRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria): ShippingCommentSearchResultsInterface;
 
     /**
-     * SAVE comment
+     * Save a comment entity
+     *
      * @param ShippingCommentInterface $comment
      * @return ShippingCommentInterface
      * @throws CouldNotSaveException
@@ -59,11 +66,14 @@ interface ShippingCommentRepositoryInterface
 
     /**
      * Create a new instance of ShippingCommentInterface
+     *
      * @return ShippingCommentInterface
      */
     public function create(): ShippingCommentInterface;
 
     /**
+     * Retrive a comment by provided quote address id
+     *
      * @param int $quoteAddressId
      * @return ShippingCommentInterface
      * @throws NoSuchEntityException

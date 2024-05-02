@@ -5,29 +5,36 @@ declare(strict_types=1);
 namespace Romchik38\CheckoutShippingComment\Api\Data;
 
 /**
- * Shipping Comment Customer interface.
+ * Shipping Comment Customer CRUD interface.
+ *
  * @api
  * */
 interface ShippingCommentCustomerInterface
 {
-    /**#@+
+    /**
      * Constants for keys of data array. Identical to the name of the getter in snake case
      */
-    const ENTITY_ID = 'entity_id';
-    const CUSTOMER_ADDRESS_ID = 'customer_address_id';
-    const COMMENT = 'comment';
+    public const ENTITY_ID = 'entity_id';
+    public const CUSTOMER_ADDRESS_ID = 'customer_address_id';
+    public const COMMENT = 'comment';
 
     /**
+     * Get comment id
+     *
      * @return int
      */
     public function getId();
 
     /**
+     * Get customer address id
+     *
      * @return int
      */
     public function getCustomerAddressId(): int;
 
     /**
+     * Get comment text
+     *
      * @return string
      */
     public function getComment(): string;
