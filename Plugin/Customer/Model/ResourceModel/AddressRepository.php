@@ -11,16 +11,17 @@ use Magento\Framework\Message\ManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * 
- * Save a comment for new or existing customer address or
- *  get existing comment
- * area - storefront 
+ * Save a comment for new or existing customer address or get existing comment
+ * area - storefront
  * url - checkout_index_index
- * 
  */
 class AddressRepository
 {
-
+    /**
+     * @param ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository
+     * @param ManagerInterface $messageManager
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository,
         private ManagerInterface $messageManager,
@@ -28,9 +29,12 @@ class AddressRepository
     ) {
     }
 
-    /** 
+    /**
+     * Add a comment field to extension attributes
+     *
      * @param \Magento\Customer\Model\ResourceModel\AddressRepository $subject
-     * @param int $addressId 
+     * @param \Magento\Customer\Model\Data\Address $result
+     * @param int $addressId
      * @return \Magento\Customer\Model\Data\Address
      */
     public function afterGetById(
@@ -64,7 +68,12 @@ class AddressRepository
      */
 
     /**
-     * Save provided comment
+     *  Save provided comment
+     *
+     * @param Magento\Customer\Model\ResourceModel\AddressRepository $subject
+     * @param \Magento\Customer\Api\Data\AddressInterface $result
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @return void
      */
     public function afterSave(
         $subject,
@@ -75,7 +84,7 @@ class AddressRepository
         $extensionAttributes = $address->getExtensionAttributes();
         $commentField = $extensionAttributes->getCommentField();
         // 1. exit if comment wasn't provided
-        if($commentField === null) {
+        if ($commentField === null) {
             return $result;
         }
         // 2. get comment
@@ -86,20 +95,26 @@ class AddressRepository
             try {
                 $comment->setComment($commentField);
                 $this->shippingCommentCustomerRepository->save($comment);
-            } catch(CouldNotSaveException $e) {
+            } catch (CouldNotSaveException $e) {
                 $this->messageManager->addErrorMessage(__("Error while updating address comment"));
-                $this->logger->critical('Error while updating shipping comment customer with customerAddressId: ' . $customerAddressId);
-            } 
-        // 4. create new comment for new sddress
-        } catch(NoSuchEntityException $e) {
+                $this->logger->critical(
+                    'Error while updating shipping comment customer with customerAddressId: '
+                        . $customerAddressId
+                );
+            }
+            // 4. create new comment for new sddress
+        } catch (NoSuchEntityException $e) {
             $comment = $this->shippingCommentCustomerRepository->create();
             $comment->setComment($commentField);
             $comment->setCustomerAddressId($customerAddressId);
             try {
                 $this->shippingCommentCustomerRepository->save($comment);
-            } catch(CouldNotSaveException $e) {
+            } catch (CouldNotSaveException $e) {
                 $this->messageManager->addErrorMessage(__("Error while saving new address comment"));
-                $this->logger->critical('Error while saving new shipping comment customer with customerAddressId: ' . $customerAddressId);
+                $this->logger->critical(
+                    'Error while saving new shipping comment customer with customerAddressId: '
+                        . $customerAddressId
+                );
             }
         }
         return $result;

@@ -16,7 +16,12 @@ use Magento\Framework\Escaper;
  */
 class Renderer
 {
-
+    /**
+     * @param ShippingCommentRepositoryInterface $shippingCommentRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterFactory $filterFactory
+     * @param Escaper $escaper
+     */
     public function __construct(
         private ShippingCommentRepositoryInterface $shippingCommentRepository,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -26,8 +31,12 @@ class Renderer
     }
 
     /**
+     * Add a comment to the Shipping Address in Order view
+     *
      * @param \Magento\Sales\Model\Order\Address\Renderer $subject
      * @param string|null $result
+     * @param \Magento\Sales\Model\Order\Address $address
+     * @return string|null
      */
     public function afterFormat(
         $subject,
@@ -44,7 +53,10 @@ class Renderer
                 $comment = $this
                     ->shippingCommentRepository
                     ->getByQuoteAddressId($quoteShippingAddressId);
-                $result = $result . '<br><span style="shipping-comment">' . $this->escaper->escapeHtml($comment->getComment()) . '</span>';
+                $result = $result
+                    . '<br><span style="shipping-comment">'
+                    . $this->escaper->escapeHtml($comment->getComment())
+                    . '</span>';
             } catch (NoSuchEntityException $e) {
             }
         }

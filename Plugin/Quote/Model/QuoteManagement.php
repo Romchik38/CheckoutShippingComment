@@ -16,6 +16,10 @@ use Psr\Log\LoggerInterface;
  */
 class QuoteManagement
 {
+    /**
+     * @param ShippingCommentRepositoryInterface $shippingCommentRepository
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         private ShippingCommentRepositoryInterface $shippingCommentRepository,
         private LoggerInterface $logger
@@ -23,8 +27,11 @@ class QuoteManagement
     }
 
     /**
+     * Add a shipping comment to quote extension attributes
+     *
      * @param \Magento\Quote\Model\QuoteManagement $subject
      * @param \Magento\Quote\Model\Quote $quote
+     * @return array|null
      */
     public function beforeSubmit(
         $subject,
@@ -47,7 +54,12 @@ class QuoteManagement
             $quoteShippingAddressExtensionAttributes->setCommentField($comment->getComment());
             $quoteShippingAddress->setExtensionAttributes($quoteShippingAddressExtensionAttributes);
         } catch (NoSuchEntityException $e) {
-            $this->logger->critical('Error while getting shipping comment with shippingAddressId: ' . $shippingAddressId . ' while placing an order with quote_id: ' . $quoteId);
+            $this->logger->critical(
+                'Error while getting shipping comment with shippingAddressId: '
+                . $shippingAddressId
+                . ' while placing an order with quote_id: '
+                . $quoteId
+            );
             return null;
         }
 

@@ -8,8 +8,7 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentCustomerRepositoryInter
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * 
- * Retrive a comment customer and set it to customer address extension attributes 
+ * Retrive a comment customer and set it to customer address extension attributes
  * area - storefront
  * page - chechout_index_index
  * as a result, the comment will be shown with other address fields in the address list
@@ -17,14 +16,20 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class Address
 {
-
+    /**
+     * @param ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository
+     */
     public function __construct(
         private ShippingCommentCustomerRepositoryInterface $shippingCommentCustomerRepository
     ) {
     }
 
     /**
+     * Add comment field to extension attributes
+     *
      * @param \Magento\Customer\Model\Address $subject
+     * @param \Magento\Customer\Model\Data\Address $result
+     * @return \Magento\Customer\Model\Data\Address
      */
     public function afterGetDataModel(
         $subject,
@@ -40,7 +45,7 @@ class Address
             $extensionAttributes->setCommentField($comment->getComment());
             $result->setExtensionAttributes($extensionAttributes);
         } catch (NoSuchEntityException $e) {
-            // do nothing because the client address 
+            // do nothing because the client address
             // may be created before the module is enabled
         }
 
