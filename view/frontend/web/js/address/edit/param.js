@@ -1,5 +1,11 @@
-define([], function () {
+define([
+    'jquery',
+    'mage/translate'
+], function ($, $t) {
     'use strict';
+
+    console.log($t('Edit'));
+
     return {
         selector: '.field.zip.required',
         input: {
@@ -12,7 +18,7 @@ define([], function () {
                     children: [
                         {
                             tagName: 'span',
-                            innerText: 'Comment'
+                            innerText: $t('Comment')
                         }
                     ]
 
