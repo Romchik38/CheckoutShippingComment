@@ -152,6 +152,5 @@ class FormPost
         } catch (LocalizedException $e) {
             $this->logger->critical('comment for customer address id ' . $address->getId() .  ' was not save');
         }
-        return;
     }
 }
