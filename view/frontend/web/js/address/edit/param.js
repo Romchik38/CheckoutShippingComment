@@ -4,8 +4,6 @@ define([
 ], function ($, $t) {
     'use strict';
 
-    console.log($t('Edit'));
-
     return {
         selector: '.field.zip.required',
         input: {
@@ -34,7 +32,7 @@ define([
                                 maxlength: '255',
                                 type: 'text',
                                 name: 'comment',
-                                title: 'Shipping comment',
+                                title: $t('Shipping comment'),
                             }
                         }
                     ]

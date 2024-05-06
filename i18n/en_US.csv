@@ -4,11 +4,13 @@
 "The Shipping Comment Customer with the Customer Address Id ""%1"" doesn't exist.","The Shipping Comment Customer with the Customer Address Id ""%1"" doesn't exist."
 "The Shipping Comment with the ""%1"" ID doesn't exist.","The Shipping Comment with the ""%1"" ID doesn't exist."
 "The Shipping Comment with the Quote Address Id ""%1"" doesn't exist.","The Shipping Comment with the Quote Address Id ""%1"" doesn't exist."
+"comment: ","comment: "
 "Error while updating address comment","Error while updating address comment"
 "Error while saving new address comment","Error while saving new address comment"
 Edit,Edit
 "Ship Here","Ship Here"
 Comment,Comment
+"Shipping comment","Shipping comment"
 Romchik38,Romchik38
 "Checkout shipping comment","Checkout shipping comment"
 "Checkout Configuration","Checkout Configuration"

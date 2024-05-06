@@ -43,7 +43,7 @@ class Book
             $commentField = $comment->getComment();
             if ($commentField) {
                 $commentFieldEscaped = $this->escaper->escapeHtml($commentField);
-                $result = $result . '<br><span class="comment">comment: ' . ($commentFieldEscaped) . '</span>';
+                $result = $result . '<br><span class="comment">' . __('comment: ') . ($commentFieldEscaped) . '</span>';
             }
         } catch (NoSuchEntityException $e) {
             

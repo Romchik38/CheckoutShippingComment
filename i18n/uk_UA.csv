@@ -1,8 +1,9 @@
 "add additional information to delivery","додайте додаткову інформацію для служби доставки"
 "Shipping Comment","Коментар для служби доставки"
 Edit,Редагувати
-"Ship Here","Доставити сюди"
 Comment,Коментар
+"comment: ","коментар: "
+"Shipping comment","Коментар для служби доставки"
 "Checkout shipping comment","Коментар для адреси доставки"
 "Checkout Configuration","Конфігурація Checkout"
 "Field sort order on checkout page","Порядок сортування Поля Коментар на сторінці оформлення замовлення"
