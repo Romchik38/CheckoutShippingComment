@@ -70,7 +70,7 @@ class AddressRepository
     /**
      *  Save provided comment
      *
-     * @param Magento\Customer\Model\ResourceModel\AddressRepository $subject
+     * @param \Magento\Customer\Model\ResourceModel\AddressRepository $subject
      * @param \Magento\Customer\Api\Data\AddressInterface $result
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return void
