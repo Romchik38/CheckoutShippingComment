@@ -25,6 +25,22 @@ The Module is working, testing it. Last preperance.
 
 Area - *shipping step* 
 
-Field is displayed for guests
-- [shipping step](./Doc/01-1-shipping-step.png)  
-- [billing step](./Doc/01-2-billing-step.png)  
+### Field is displayed for guests
+- ![shipping step](./Doc/01-1-shipping-step.png)  
+- ![billing step](./Doc/01-2-billing-step.png)  
+
+### Field is displayed for customers with new address
+- ![new address](./Doc/01-3-customer-new-address.png)
+- ![new address](./Doc/01-4-customer-new-address.png)
+
+## 2. The comment is displayed for existing customer address
+
+Area - *shipping step*
+
+Saved comment is displayed in address fields list. Customer created the address manually or already placed order.
+
+- ![existing address](./Doc/02-1-customer-existing-address.png)
+
+
+
+
