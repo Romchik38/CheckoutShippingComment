@@ -20,3 +20,11 @@ The Module is working, testing it. Last preperance.
 ## Versions
 
 * 1.0.0-beta1   Magento 2.4.7   PHP 8.2.17
+
+## 1. Comment field is displayed for guests and customers ( with new address )
+
+Area - *shipping step* 
+
+Field is displayed for guests
+- [shipping step](./Doc/01-1-shipping-step.png)  
+- [billing step](./Doc/01-2-billing-step.png)  
