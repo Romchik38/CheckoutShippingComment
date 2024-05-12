@@ -78,6 +78,10 @@ class ShippingInformationManagement
         $comment->setComment($commentField);
         try {
             $this->shippingCommentRepository->save($comment);
+            // also change comment for quote
+            $quoteShippingAddressExtensionAttributes = $quoteShippingAddress->getExtensionAttributes();
+            $quoteShippingAddressExtensionAttributes->setCommentField($comment->getComment());
+            $quoteShippingAddress->setExtensionAttributes($quoteShippingAddressExtensionAttributes);
         } catch (CouldNotSaveException $e) {
             $this->logger->critical(
                 'Comment for shippingAddressId: '

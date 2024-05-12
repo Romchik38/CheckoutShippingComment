@@ -16,11 +16,14 @@ use \Magento\Quote\Model\Quote;
 use Magento\Checkout\Model\ShippingInformation;
 use \Romchik38\CheckoutShippingComment\Model\ShippingComment;
 use Magento\Framework\Logger\LoggerProxy;
+use \Magento\Quote\Api\Data\AddressExtension;
 use PHPUnit\Framework\TestCase;
 
 class ShippingInformationManagementTest extends TestCase
 {
     private $address;
+    private $addressQuote;
+    private $addressExtensionQuote;
     private $addressInformation;
     private $cartId = 1;
     private $logger;
@@ -34,6 +37,8 @@ class ShippingInformationManagementTest extends TestCase
     public function setUp(): void
     {
         $this->address = $this->createMock(Address::class);
+        $this->addressQuote = $this->createMock(Address::class);
+        $this->addressExtensionQuote = $this->createMock(AddressExtension::class);
         $this->addressInformation = $this->createMock(ShippingInformation::class);
         $this->logger = $this->createMock(LoggerProxy::class);
         $this->quote = $this->createMock(Quote::class);
@@ -118,9 +123,19 @@ class ShippingInformationManagementTest extends TestCase
         $this->quote
             ->expects($this->once())
             ->method('getShippingAddress')
-            ->willReturn($this->address);
+            ->willReturn($this->addressQuote);
 
-        $this->address->expects($this->once())->method('getId');
+        $this->addressQuote->expects($this->once())->method('getId');
+        $this->addressQuote->expects($this->once())->method('getExtensionAttributes')
+            ->willReturn($this->addressExtensionQuote);
+
+        $this->addressExtensionQuote->expects($this->once())->method('setCommentField')
+            ->with($this->equalTo('comment 1'));
+
+        $this->shippingComment
+            ->expects($this->once())
+            ->method('getComment')
+            ->willReturn('comment 1');
 
         $this->shippingComment
             ->expects($this->once())
@@ -183,9 +198,19 @@ class ShippingInformationManagementTest extends TestCase
         $this->quote
             ->expects($this->once())
             ->method('getShippingAddress')
-            ->willReturn($this->address);
+            ->willReturn($this->addressQuote);
 
-        $this->address->expects($this->once())->method('getId');
+        $this->addressQuote->expects($this->once())->method('getId');
+        $this->addressQuote->expects($this->once())->method('getExtensionAttributes')
+            ->willReturn($this->addressExtensionQuote);
+
+        $this->addressExtensionQuote->expects($this->once())->method('setCommentField')
+            ->with($this->equalTo('comment 1'));
+
+        $this->shippingComment
+            ->expects($this->once())
+            ->method('getComment')
+            ->willReturn('comment 1');
 
         $this->shippingComment
             ->expects($this->once())
@@ -211,24 +236,25 @@ class ShippingInformationManagementTest extends TestCase
 
         $this->addressInformation->method('getShippingAddress')->willReturn($this->address);
         $this->address->method('getExtensionAttributes')->willReturn(
-                new class
+            new class
+            {
+                function getCommentField()
                 {
-                    function getCommentField() {
-                        return 'comment 1';
-                    }
+                    return 'comment 1';
                 }
-            );
+            }
+        );
 
         $this->shippingCommentRepository->method('getByQuoteAddressId')
             ->willReturn($this->shippingComment);
-        
+
         $this->shippingCommentRepository
             ->expects($this->once())
             ->method('save')
             ->will($this->throwException(new CouldNotSaveException(__(''))));
 
         $this->quoteRepository->method('getActive')->willReturn($this->quote);
-        $this->quote->method('getShippingAddress')->willReturn($this->address);
+        $this->quote->method('getShippingAddress')->willReturn($this->addressQuote);
 
         $shippingInformationManagement->afterSaveAddressInformation(
             $this->subject,
@@ -236,6 +262,5 @@ class ShippingInformationManagementTest extends TestCase
             $this->cartId,
             $this->addressInformation
         );
-
     }
 }

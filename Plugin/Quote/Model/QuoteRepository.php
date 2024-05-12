@@ -8,13 +8,7 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
-/**
- * Add a shipping comment to quote extension attributes
- *  The Plugin starts after a customer pushed "Place order" button
- * area - storefront
- * url - checkout/index/index
- */
-class QuoteManagement
+class QuoteRepository
 {
     /**
      * @param ShippingCommentRepositoryInterface $shippingCommentRepository
@@ -27,26 +21,26 @@ class QuoteManagement
     }
 
     /**
-     * Add a shipping comment to quote extension attributes
+     * Add commentField to Quote Extension Attributes
      *
-     * @param \Magento\Quote\Model\QuoteManagement $subject
-     * @param \Magento\Quote\Model\Quote $quote
-     * @return array|null
+     * @param \Magento\Quote\Model\QuoteRepository $subject
+     * @param \Magento\Quote\Model\Quote $result
+     * @return \Magento\Quote\Api\Data\CartInterface
      */
-    public function beforeSubmit(
-        $subject,
-        $quote
-    ): array|null {
-
-        $quoteId = $quote->getId();
-
-        $quoteShippingAddress = $quote->getShippingAddress();
-        $saveInAddressBook = $quoteShippingAddress->getSaveInAddressBook();
-        if ($saveInAddressBook === 0) {
-            return null;
-        }
+    public function afterGetActive($subject, $result)
+    {
+        $quoteShippingAddress = $result->getShippingAddress();
         $shippingAddressId = $quoteShippingAddress->getId();
 
+        $quoteShippingAddressExtensionAttributes = $quoteShippingAddress->getExtensionAttributes();
+        $quoteCommentField = $quoteShippingAddressExtensionAttributes->getCommentField();
+
+        // 1. Comment already was set
+        if ($quoteCommentField !== null) {
+            return $result;
+        }
+
+        // 2. Add a comment to quote
         try {
             $comment = $this->shippingCommentRepository
                 ->getByQuoteAddressId((int)$shippingAddressId);
@@ -54,15 +48,9 @@ class QuoteManagement
             $quoteShippingAddressExtensionAttributes->setCommentField($comment->getComment());
             $quoteShippingAddress->setExtensionAttributes($quoteShippingAddressExtensionAttributes);
         } catch (NoSuchEntityException $e) {
-            $this->logger->critical(
-                'Error while getting shipping comment with shippingAddressId: '
-                . $shippingAddressId
-                . ' while placing an order with quote_id: '
-                . $quoteId
-            );
-            return null;
+            // Do nothing, because comment migth not be set
         }
 
-        return [$quote];
+        return $result;
     }
 }
