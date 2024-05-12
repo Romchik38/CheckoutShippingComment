@@ -44,6 +44,8 @@ Saved comment is displayed in address fields list. Customer created the address 
 
 ## <a name="3"></a> 3. In the address list added edit link for each customer address
 
+Area - *shipping step*
+
 *Edit* link to customer edit address form
 
 - ![edit link](./Doc/03-1-customer-address-edit-link.png)
@@ -62,9 +64,11 @@ Area - *address book*
 - ![existing customer address](./Doc/05-1-existing-customer-address.png)
 - ![existing customer address](./Doc/05-2-new-customer-address.png)
 
-## <a name="6"></a> 6. The comment is displayed on the Order page ( Sales => Orders => click View on any Order => check Shipping Address )
+## <a name="6"></a> 6. The comment is displayed on the Order page 
 
 Area - *admin*
+
+Admin path - Sales => Orders => click View on any Order => check Shipping Address.
 
 - ![admin order view](./Doc/06-1-admin-order-view.png)
 
