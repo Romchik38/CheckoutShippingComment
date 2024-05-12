@@ -8,6 +8,9 @@ use Romchik38\CheckoutShippingComment\Api\ShippingCommentRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Add commentField to Quote Extension Attributes
+ */
 class QuoteRepository
 {
     /**
@@ -30,7 +33,6 @@ class QuoteRepository
     public function afterGetActive($subject, $result)
     {
         $quoteShippingAddress = $result->getShippingAddress();
-        $shippingAddressId = $quoteShippingAddress->getId();
 
         $quoteShippingAddressExtensionAttributes = $quoteShippingAddress->getExtensionAttributes();
         $quoteCommentField = $quoteShippingAddressExtensionAttributes->getCommentField();
@@ -43,8 +45,7 @@ class QuoteRepository
         // 2. Add a comment to quote
         try {
             $comment = $this->shippingCommentRepository
-                ->getByQuoteAddressId((int)$shippingAddressId);
-            $quoteShippingAddressExtensionAttributes = $quoteShippingAddress->getExtensionAttributes();
+                ->getByQuoteAddressId((int)$quoteShippingAddress->getId());
             $quoteShippingAddressExtensionAttributes->setCommentField($comment->getComment());
             $quoteShippingAddress->setExtensionAttributes($quoteShippingAddressExtensionAttributes);
         } catch (NoSuchEntityException $e) {
