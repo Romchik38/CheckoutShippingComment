@@ -14,13 +14,10 @@ Magento 2 module adds a comment to checkout shipping address form.
 6. [*admin* - the comment is displayed on the Order page ( Sales => Orders => click View on any Order => check Shipping Address )](#6)
 7. [*admin* - there are some comment settings](#7)
 
-## Status
-
-The Module is working, testing it. Last preperance.
-
 ## Versions
 
-* 1.0.0-beta1   Magento 2.4.7   PHP 8.2.17
+Current version 1.0.0  
+[full list](./versions.md)  
 
 ## <a name="1"></a> 1. Comment field is displayed for guests and customers ( with new address )
 
